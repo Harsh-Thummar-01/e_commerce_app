@@ -8,7 +8,6 @@ import 'package:flutter/material.dart';
 class ProductShowPage extends StatefulWidget {
   final ProductModel productModel;
 
-
   const ProductShowPage({super.key, required this.productModel});
 
   @override
@@ -19,7 +18,6 @@ class _ProductShowPageState extends State<ProductShowPage> {
   int _itemCount = 1;
   final uid = FirebaseAuth.instance.currentUser!.uid;
   final cartUid = DateTime.now().millisecondsSinceEpoch;
-  
 
   void addToCart() async {
     CartModel cart = CartModel(
@@ -28,19 +26,27 @@ class _ProductShowPageState extends State<ProductShowPage> {
         price: widget.productModel.price,
         image: widget.productModel.imageUrl,
         quantity: _itemCount.toString());
-     FirebaseFirestore.instance.collection("users").doc(uid).collection("item").doc(cart.id).set({
-      "id":cart.id,
-      "name":cart.name,
-      "price":cart.price,
-      "image":cart.image,
-      "quantity":cart.quantity
+    FirebaseFirestore.instance
+        .collection("users")
+        .doc(uid)
+        .collection("item")
+        .doc(cart.id)
+        .set({
+      "id": cart.id,
+      "name": cart.name,
+      "price": cart.price,
+      "image": cart.image,
+      "quantity": cart.quantity
     });
-     Navigator.push(context, MaterialPageRoute(builder: (context) {
-      return const CartScreen();
-    },),);
-
+    Navigator.push(
+      context,
+      MaterialPageRoute(
+        builder: (context) {
+          return const CartScreen();
+        },
+      ),
+    );
   }
-
 
   @override
   Widget build(BuildContext context) {
@@ -201,7 +207,7 @@ class _ProductShowPageState extends State<ProductShowPage> {
                                         });
                                       },
                                     )
-                                  :const Icon(Icons.remove),
+                                  : const Icon(Icons.remove),
                             )),
                         SizedBox(
                           height: 49,

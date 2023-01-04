@@ -12,6 +12,7 @@ class CartScreen extends StatefulWidget {
 }
 
 class _CartScreenState extends State<CartScreen> {
+  // int _itemCount = 1;
   User? user = FirebaseAuth.instance.currentUser;
 
   @override
@@ -64,7 +65,9 @@ class _CartScreenState extends State<CartScreen> {
                     ),
                     child: Padding(
                       padding: const EdgeInsets.symmetric(
-                          vertical: 8, horizontal: 8,),
+                        vertical: 8,
+                        horizontal: 8,
+                      ),
                       child: Row(
                         children: [
                           SizedBox(
@@ -78,7 +81,9 @@ class _CartScreenState extends State<CartScreen> {
                               Text(
                                 cartData['name'].toString(),
                                 style: const TextStyle(
-                                    fontSize: 16, fontWeight: FontWeight.bold,),
+                                  fontSize: 16,
+                                  fontWeight: FontWeight.bold,
+                                ),
                               ),
                               const SizedBox(
                                 height: 6,
@@ -86,7 +91,9 @@ class _CartScreenState extends State<CartScreen> {
                               Text(
                                 cartData['price'].toString(),
                                 style: const TextStyle(
-                                    fontSize: 17, fontWeight: FontWeight.bold,),
+                                  fontSize: 17,
+                                  fontWeight: FontWeight.bold,
+                                ),
                               ),
                               const SizedBox(
                                 height: 6,
@@ -95,6 +102,81 @@ class _CartScreenState extends State<CartScreen> {
                                 "Qty: ${cartData["quantity"].toString()}",
                                 style: const TextStyle(fontSize: 15),
                               ),
+                              // Container(
+                              //   decoration: BoxDecoration(
+                              //       borderRadius: BorderRadius.circular(5),
+                              //       color: Colors.white),
+                              //   child: Row(
+                              //     children: [
+                              //       _itemCount != 1
+                              //           ? InkWell(
+                              //               onTap: () {
+                              //                 setState(() {
+                              //                   _itemCount--;
+                              //                 });
+                              //               },
+                              //               child: Container(
+                              //                 height: 30,
+                              //                 width: 30,
+                              //                 decoration: BoxDecoration(
+                              //                   borderRadius:
+                              //                       BorderRadius.circular(5),
+                              //                   color:
+                              //                       Colors.redAccent.shade100,
+                              //                 ),
+                              //                 child: const Icon(
+                              //                   Icons.remove,
+                              //                   color: Colors.white,
+                              //                 ),
+                              //               ),
+                              //             )
+                              //           : Container(
+                              //         height: 30,
+                              //         width: 30,
+                              //         decoration: BoxDecoration(
+                              //           borderRadius:
+                              //           BorderRadius.circular(5),
+                              //           color:
+                              //           Colors.redAccent.shade100,
+                              //         ),
+                              //         child: const Icon(
+                              //           Icons.remove,
+                              //           color: Colors.white,
+                              //         ),
+                              //       ),
+                              //       SizedBox(
+                              //         height: 30,
+                              //         width: 40,
+                              //         child: Center(
+                              //           child: Text(
+                              //             _itemCount.toString(),
+                              //             style: const TextStyle(fontSize: 17),
+                              //           ),
+                              //         ),
+                              //       ),
+                              //       InkWell(
+                              //         onTap: () {
+                              //           setState(() {
+                              //             _itemCount++;
+                              //           });
+                              //         },
+                              //         child: Container(
+                              //           height: 30,
+                              //           width: 30,
+                              //           decoration: BoxDecoration(
+                              //             borderRadius:
+                              //                 BorderRadius.circular(5),
+                              //             color: Colors.redAccent.shade100,
+                              //           ),
+                              //           child: const Icon(
+                              //             Icons.add,
+                              //             color: Colors.white,
+                              //           ),
+                              //         ),
+                              //       ),
+                              //     ],
+                              //   ),
+                              // ),
                             ],
                           ),
                           const Spacer(),
