@@ -3,12 +3,7 @@ import 'package:flutter/material.dart';
 
 class FavoritePage extends StatelessWidget {
   const FavoritePage({super.key});
-
-
-
-  
-
-  // final dataProductModel = FirebaseHelper.getFavoriteData();
+    // final dataProductModel = FirebaseHelper.getFavoriteData();
   @override
   Widget build(BuildContext context) {
     return Scaffold(

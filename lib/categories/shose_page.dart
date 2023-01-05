@@ -181,7 +181,7 @@ class _ShosePageState extends State<ShosePage> {
                                 fontWeight: FontWeight.bold,
                               )),
                           TextSpan(
-                              text: products[index].price!,
+                              text: products[index].price,
                               style:const TextStyle(
                                 color: Colors.black,
                                 fontSize: 17,

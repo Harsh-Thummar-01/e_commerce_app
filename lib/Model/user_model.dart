@@ -1,5 +1,3 @@
-// ignore_for_file: public_member_api_docs
-
 class UserModel {
   String? uid;
   String? email;
@@ -10,13 +8,13 @@ class UserModel {
   String? imageUrl;
 
   UserModel(
-      {this.uid,
-        this.email,
-        this.userName,
-        this.firstName,
-        this.lastName,
-        this.comment,
-        this.imageUrl,});
+      { this.uid,
+         this.email,
+         this.userName,
+         this.firstName,
+         this.lastName,
+         this.comment,
+         this.imageUrl,});
 
   UserModel.fromMap(Map<String, dynamic> map) {
     uid = map['uid'];

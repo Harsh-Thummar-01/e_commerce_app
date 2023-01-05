@@ -14,6 +14,10 @@ class CartScreen extends StatefulWidget {
 class _CartScreenState extends State<CartScreen> {
   // int _itemCount = 1;
   User? user = FirebaseAuth.instance.currentUser;
+  // String totalPrice(cartData){
+  //   String total = cartData['price']*cartData['quantity'];
+  //   return total;
+  // }
 
   @override
   Widget build(BuildContext context) {
@@ -89,6 +93,7 @@ class _CartScreenState extends State<CartScreen> {
                                 height: 6,
                               ),
                               Text(
+                                // "${totalPrice(cartData).toString()}",
                                 cartData['price'].toString(),
                                 style: const TextStyle(
                                   fontSize: 17,
@@ -202,7 +207,14 @@ class _CartScreenState extends State<CartScreen> {
               );
             } else {
               return const Center(
-                child: Text('Empty'),
+                child: Text(
+                  'Empty cart',
+                  style: TextStyle(
+                      fontSize: 17,
+                      fontWeight: FontWeight.bold,
+                      fontStyle: FontStyle.italic,
+                      color: Colors.grey),
+                ),
               );
             }
           }

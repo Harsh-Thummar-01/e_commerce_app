@@ -3,10 +3,12 @@ import 'package:e_commerce_app/Model/user_model.dart';
 import 'package:e_commerce_app/admin/login_page.dart';
 
 import 'package:e_commerce_app/home_page.dart';
+import 'package:e_commerce_app/proividers/fav_provider.dart';
 
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter/material.dart';
+import 'package:provider/provider.dart';
 
 void main() async {
   WidgetsFlutterBinding.ensureInitialized();
@@ -22,7 +24,6 @@ void main() async {
       runApp(MainScreen(
         firebaseUser: currentUser,
         userModel: thisUserModel,
-
       ));
     } else {
       runApp(const MyApp());
@@ -56,8 +57,11 @@ class MainScreen extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return MaterialApp(
-      debugShowCheckedModeBanner: false,
-        home: HomePage(userModel: userModel, firebaseUser: firebaseUser,));
+    return ChangeNotifierProvider(
+      create:(context) => FavProvider(),
+      child: MaterialApp(
+        debugShowCheckedModeBanner: false,
+          home:   HomePage(userModel: userModel, firebaseUser: firebaseUser,)),
+    );
   }
 }

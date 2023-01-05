@@ -18,6 +18,7 @@ class _ProductShowPageState extends State<ProductShowPage> {
   int _itemCount = 1;
   final uid = FirebaseAuth.instance.currentUser!.uid;
   final cartUid = DateTime.now().millisecondsSinceEpoch;
+  String? total;
 
   void addToCart() async {
     CartModel cart = CartModel(
@@ -46,6 +47,7 @@ class _ProductShowPageState extends State<ProductShowPage> {
         },
       ),
     );
+    total = cart.price! * int.parse(cart.quantity.toString());
   }
 
   @override
@@ -68,6 +70,10 @@ class _ProductShowPageState extends State<ProductShowPage> {
               ),
             ),
           ),
+          Positioned(top: 15, right: 15,child:IconButton(
+            onPressed: (){},
+            icon: const Icon(Icons.favorite_border_rounded)
+          ) ),
           Positioned(
             left: 25,
             top: 25 + MediaQuery.of(context).padding.top,
@@ -130,6 +136,7 @@ class _ProductShowPageState extends State<ProductShowPage> {
                     child: Row(
                       children: [
                         Expanded(
+
                           child: Text(
                             widget.productModel.name!,
                             style: const TextStyle(
@@ -269,7 +276,8 @@ class _ProductShowPageState extends State<ProductShowPage> {
                             children: [
                               const Text("Total"),
                               Text(
-                                widget.productModel.price!,
+                                total.toString(),
+                                // widget.productModel.price!,
                                 style: const TextStyle(
                                   fontSize: 23,
                                   fontWeight: FontWeight.bold,

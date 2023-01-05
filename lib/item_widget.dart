@@ -60,88 +60,85 @@ class _ItemWidgetState extends State<ItemWidget> {
   // List selectedData = [];
   @override
   Widget build(BuildContext context) {
-    return SingleChildScrollView(
-      scrollDirection: Axis.vertical,
-      child: GridView.count(
-        physics: const NeverScrollableScrollPhysics(),
-        childAspectRatio: 0.80,
-        crossAxisCount: 2,
-        shrinkWrap: true,
-        children: List.generate(
-          products.length,
-          (index) => Card(
-            color: const Color(0xFFffe9e8),
-            shape: RoundedRectangleBorder(
-              borderRadius: BorderRadius.circular(12),
-            ),
-            margin: const EdgeInsets.symmetric(vertical: 8, horizontal: 8),
-            child: Padding(
-              padding: const EdgeInsets.symmetric(vertical: 10),
-              child: Column(
-                children: [
-                  InkWell(
-                    onTap: () {
-                      Navigator.push(
-                          context,
-                          MaterialPageRoute(
-                            builder: (context) => ProductShowPage(
-                              productModel: products[index],
-                            ),
-                          ));
-                    },
-                    child: Image.asset(
-                      products[index].imageUrl!,
-                      width: 100,
-                      height: 100,
-                    ),
+    return GridView.count(
+      physics:const NeverScrollableScrollPhysics(),
+      childAspectRatio: 0.80,
+      crossAxisCount: 2,
+      shrinkWrap: true,
+      children: List.generate(
+        products.length,
+        (index) => Card(
+          color: const Color(0xFFffe9e8),
+          shape: RoundedRectangleBorder(
+            borderRadius: BorderRadius.circular(12),
+          ),
+          margin: const EdgeInsets.symmetric(vertical: 8, horizontal: 8),
+          child: Padding(
+            padding: const EdgeInsets.symmetric(vertical: 10),
+            child: Column(
+              children: [
+                InkWell(
+                  onTap: () {
+                    Navigator.push(
+                        context,
+                        MaterialPageRoute(
+                          builder: (context) => ProductShowPage(
+                            productModel: products[index],
+                          ),
+                        ));
+                  },
+                  child: Image.asset(
+                    products[index].imageUrl!,
+                    width: 100,
+                    height: 100,
                   ),
-                  Column(
-                    children: [
-                      const SizedBox(
-                        height: 8,
-                      ),
-                      Text(
-                        products[index].name!,
-                        style: const TextStyle(fontSize: 13),
-                      ),
-                      const SizedBox(
-                        height: 8,
-                      ),
-                      Text(
-                        "Trending Now",
-                        style: TextStyle(
-                            fontSize: 9,
-                            fontWeight: FontWeight.bold,
-                            color: Colors.redAccent.shade100),
-                      ),
-                      const SizedBox(
-                        height: 8,
-                      ),
-                      RichText(
-                        text: TextSpan(
-                          children: [
-                            TextSpan(
-                                text: "₹",
-                                style: TextStyle(
-                                  color: Colors.redAccent.shade100,
-                                  fontSize: 12,
-                                  fontWeight: FontWeight.bold,
-                                )),
-                            TextSpan(
-                              text: products[index].price!,
-                              style: const TextStyle(
-                                color: Colors.black,
-                                fontSize: 17,
+                ),
+                Column(
+                  children: [
+                    const SizedBox(
+                      height: 8,
+                    ),
+                    Text(
+                      products[index].name!,
+                      style: const TextStyle(fontSize: 13),
+                    ),
+                    const SizedBox(
+                      height: 8,
+                    ),
+                    Text(
+                      "Trending Now",
+                      style: TextStyle(
+                          fontSize: 9,
+                          fontWeight: FontWeight.bold,
+                          color: Colors.redAccent.shade100),
+                    ),
+                    const SizedBox(
+                      height: 8,
+                    ),
+                    RichText(
+                      text: TextSpan(
+                        children: [
+                          TextSpan(
+                              text: "₹",
+                              style: TextStyle(
+                                color: Colors.redAccent.shade100,
+                                fontSize: 12,
                                 fontWeight: FontWeight.bold,
-                              ),
+                              )),
+                          TextSpan(
+                            text: products[index].price,
+                            style: const TextStyle(
+                              color: Colors.black,
+                              fontSize: 17,
+                              fontWeight: FontWeight.bold,
                             ),
-                          ],
-                        ),
+                          ),
+                        ],
                       ),
-                    ],
-                  )
-                ],
-              ),
+                    ),
+                  ],
+                )
+              ],
             ),
           ),
         ),

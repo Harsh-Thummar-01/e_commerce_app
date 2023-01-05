@@ -11,38 +11,48 @@ import 'package:flutter/material.dart';
 class LoginPage extends StatefulWidget {
   const LoginPage({super.key});
 
-
-
   @override
   State<LoginPage> createState() => _LoginPageState();
 }
 
 class _LoginPageState extends State<LoginPage> {
   final _formKey = GlobalKey<FormState>();
-  final emailcontroll = TextEditingController();
-  final passwordcontroll = TextEditingController();
+  TextEditingController emailControl = TextEditingController();
+  TextEditingController passwordControl = TextEditingController();
 
-  Future<void> login () async {
-    final email = emailcontroll.text.trim();
-    final password = passwordcontroll.text.trim();
+   login() async {
+    String email = emailControl.text.trim();
+    String password = passwordControl.text.trim();
 
     UserCredential? credential;
     try {
-      credential = await FirebaseAuth.instance.signInWithEmailAndPassword(email: email, password: password);
-      
+      credential = await FirebaseAuth.instance
+          .signInWithEmailAndPassword(email: email, password: password);
     } on FirebaseAuthException catch (e) {
+      print("============$e");
       stdout.write(e.message.toString());
     }
+
     if (credential != null) {
       final user = credential.user;
       final uid = user!.uid;
 
-      final DocumentSnapshot userData = await FirebaseFirestore.instance.collection('users').doc(uid).get();
-      final userModel = UserModel.fromMap(userData.data() as Map<String,String>);
-      await Navigator.push(context, MaterialPageRoute(builder: (context) => HomePage(userModel: userModel,firebaseUser: user),));
-      
+      final DocumentSnapshot userData =
+          await FirebaseFirestore.instance.collection('users').doc(uid).get();
+      final userModel =
+          UserModel.fromMap(userData.data() as Map<String, dynamic>);
+
+      await Navigator.push(
+          context,
+          MaterialPageRoute(
+            builder: (context) =>
+                HomePage(userModel: userModel, firebaseUser: user),
+          ));
 
       stdout.write('Log In Siccessfully');
+    }
+    else{
+      print("Log in failed");
     }
   }
 
@@ -59,9 +69,10 @@ class _LoginPageState extends State<LoginPage> {
                 child: Text(
                   'Login Page',
                   style: TextStyle(
-                      fontSize: 35,
-                      fontWeight: FontWeight.bold,
-                      color: Colors.redAccent.shade100,),
+                    fontSize: 35,
+                    fontWeight: FontWeight.bold,
+                    color: Colors.redAccent.shade100,
+                  ),
                 ),
               ),
               Form(
@@ -70,61 +81,70 @@ class _LoginPageState extends State<LoginPage> {
                   children: [
                     Padding(
                       padding: const EdgeInsets.symmetric(
-                          horizontal: 15, vertical: 5,),
-                      child: TextFormField(
-                        controller: emailcontroll,
-                        cursorColor: Colors.redAccent,
-                        decoration: InputDecoration(
-                            fillColor: const Color(0x14ff8a80),
-                            filled: true,
-                            prefixIcon: Icon(
-                              Icons.email,
-                              color: Colors.redAccent.shade100,
-                            ),
-                            enabledBorder: OutlineInputBorder(
-                              borderRadius: BorderRadius.circular(12),
-                              borderSide: BorderSide(
-                                  width: 1.5,
-                                  color: Colors.redAccent.shade100,),
-                            ),
-                            focusedBorder: OutlineInputBorder(
-                              borderRadius: BorderRadius.circular(12),
-                              borderSide: BorderSide(
-                                  width: 1.5,
-                                  color: Colors.redAccent.shade100,),
-                            ),
-                            hintText: 'E-mail-Id',),
+                        horizontal: 15,
+                        vertical: 5,
                       ),
-                    ),
-                    Padding(
-                      padding:
-                          const EdgeInsets.symmetric(horizontal: 15, vertical: 5),
                       child: TextFormField(
-                        obscureText: true,
-                        controller: passwordcontroll,
+                        controller: emailControl,
                         cursorColor: Colors.redAccent,
                         decoration: InputDecoration(
                           fillColor: const Color(0x14ff8a80),
-                            filled: true,
-                            prefixIcon: Icon(
-                              Icons.password,
+                          filled: true,
+                          prefixIcon: Icon(
+                            Icons.email,
+                            color: Colors.redAccent.shade100,
+                          ),
+                          enabledBorder: OutlineInputBorder(
+                            borderRadius: BorderRadius.circular(12),
+                            borderSide: BorderSide(
+                              width: 1.5,
                               color: Colors.redAccent.shade100,
                             ),
-                            border: const OutlineInputBorder(
-                                borderSide: BorderSide.none,),
-                            enabledBorder: OutlineInputBorder(
-                              borderRadius: BorderRadius.circular(12),
-                              borderSide: BorderSide(
-                                  width: 1.5,
-                                  color: Colors.redAccent.shade100,),
+                          ),
+                          focusedBorder: OutlineInputBorder(
+                            borderRadius: BorderRadius.circular(12),
+                            borderSide: BorderSide(
+                              width: 1.5,
+                              color: Colors.redAccent.shade100,
                             ),
-                            focusedBorder: OutlineInputBorder(
-                              borderRadius: BorderRadius.circular(12),
-                              borderSide: BorderSide(
-                                  width: 1.5,
-                                  color: Colors.redAccent.shade100,),
+                          ),
+                          hintText: 'E-mail-Id',
+                        ),
+                      ),
+                    ),
+                    Padding(
+                      padding: const EdgeInsets.symmetric(
+                          horizontal: 15, vertical: 5),
+                      child: TextFormField(
+                        obscureText: true,
+                        controller: passwordControl,
+                        cursorColor: Colors.redAccent,
+                        decoration: InputDecoration(
+                          fillColor: const Color(0x14ff8a80),
+                          filled: true,
+                          prefixIcon: Icon(
+                            Icons.password,
+                            color: Colors.redAccent.shade100,
+                          ),
+                          border: const OutlineInputBorder(
+                            borderSide: BorderSide.none,
+                          ),
+                          enabledBorder: OutlineInputBorder(
+                            borderRadius: BorderRadius.circular(12),
+                            borderSide: BorderSide(
+                              width: 1.5,
+                              color: Colors.redAccent.shade100,
                             ),
-                            hintText: 'Password',),
+                          ),
+                          focusedBorder: OutlineInputBorder(
+                            borderRadius: BorderRadius.circular(12),
+                            borderSide: BorderSide(
+                              width: 1.5,
+                              color: Colors.redAccent.shade100,
+                            ),
+                          ),
+                          hintText: 'Password',
+                        ),
                       ),
                     ),
                     const SizedBox(
@@ -135,20 +155,23 @@ class _LoginPageState extends State<LoginPage> {
               ),
               ElevatedButton(
                 style: ElevatedButton.styleFrom(
-                    elevation: 4,
-                    backgroundColor: Colors.redAccent.shade100,
-                    shape: const RoundedRectangleBorder(
-                        borderRadius: BorderRadius.only(
+                  elevation: 4,
+                  backgroundColor: Colors.redAccent.shade100,
+                  shape: const RoundedRectangleBorder(
+                    borderRadius: BorderRadius.only(
                       topLeft: Radius.circular(15),
                       bottomRight: Radius.circular(15),
-                    ),),),
+                    ),
+                  ),
+                ),
                 onPressed: login,
                 child: const Text(
                   'Login',
                   style: TextStyle(
-                      fontSize: 15,
-                      fontWeight: FontWeight.bold,
-                      color: Colors.white,),
+                    fontSize: 15,
+                    fontWeight: FontWeight.bold,
+                    color: Colors.white,
+                  ),
                 ),
               ),
               Row(
@@ -158,10 +181,11 @@ class _LoginPageState extends State<LoginPage> {
                   InkWell(
                     onTap: () {
                       Navigator.push(
-                          context,
-                          MaterialPageRoute(
-                            builder: (context) => const RegisterPage(),
-                          ),);
+                        context,
+                        MaterialPageRoute(
+                          builder: (context) => const RegisterPage(),
+                        ),
+                      );
                     },
                     child: Text(
                       'Register',
@@ -170,16 +194,13 @@ class _LoginPageState extends State<LoginPage> {
                   ),
                 ],
               ),
-
             ],
           ),
         ),
       ),
     );
   }
-
 }
-
 
 // InkWell(
 // onTap: () {

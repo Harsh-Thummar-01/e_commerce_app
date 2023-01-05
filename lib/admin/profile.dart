@@ -1,6 +1,4 @@
 
-// ignore_for_file: public_member_api_docs, lines_longer_than_80_chars, flutter_style_todos, use_build_context_synchronously, inference_failure_on_instance_creation, inference_failure_on_function_return_type, always_declare_return_types, type_annotate_public_apis, cast_nullable_to_non_nullable, inference_failure_on_function_invocation
-
 import 'dart:io';
 
 import 'package:cloud_firestore/cloud_firestore.dart';
@@ -14,12 +12,9 @@ import 'package:image_cropper/image_cropper.dart';
 import 'package:image_picker/image_picker.dart';
 
 class Profile extends StatefulWidget {
-
-  const Profile({super.key, required this.userModel, required this.firebaseUser});
   final UserModel userModel;
   final User firebaseUser;
-
-
+  const Profile({super.key, required this.userModel, required this.firebaseUser});
 
   @override
   State<Profile> createState() => _ProfileState();
@@ -29,7 +24,6 @@ class _ProfileState extends State<Profile> {
 
   @override
   void initState() {
-    // TODO: implement initState
     super.initState();
     firstcontrol.text = widget.userModel.firstName ?? '';
     lastcontrol.text = widget.userModel.lastName ?? '';
@@ -48,16 +42,16 @@ class _ProfileState extends State<Profile> {
   File? imageFile;
   
   
-  Future<void> selectImage(ImageSource source) async {
+  Future selectImage(ImageSource source) async {
    final pickedFile = await ImagePicker().pickImage(source: source);
 
    if (pickedFile != null) {
-     await cropImage(pickedFile);
+     cropImage(pickedFile);
    }
 
   }
 
-  Future<void> cropImage(XFile file) async {
+  Future cropImage(XFile file) async {
     final croppedImage = await ImageCropper().cropImage(sourcePath: file.path);
 
     if (croppedImage != null) {
@@ -67,7 +61,7 @@ class _ProfileState extends State<Profile> {
     }
   }
 
-  Future<void> uploadData() async {
+  Future uploadData() async {
     final uploadTask = FirebaseStorage.instance.ref('profilePicture/').child(widget.userModel.uid.toString()).putFile(imageFile!);
 
     final imageUrl = await uploadTask.snapshot.ref.getDownloadURL();
@@ -81,15 +75,15 @@ class _ProfileState extends State<Profile> {
     widget.userModel.imageUrl = imageUrl;
 
     if(widget.userModel.uid != null){
-      await FirebaseFirestore.instance.collection('users').doc(widget.userModel.uid).update(widget.userModel.toMap());
-      await Navigator.push(context,
+      FirebaseFirestore.instance.collection('users').doc(widget.userModel.uid).update(widget.userModel.toMap());
+      Navigator.push(context,
           MaterialPageRoute(builder: (context) => HomePage(userModel: widget.userModel, firebaseUser: widget.firebaseUser)
             ,),);
     }
     else
       {
         await FirebaseFirestore.instance.collection('users').doc(widget.userModel.uid).set(widget.userModel.toMap());
-        await Navigator.push(context,
+         Navigator.push(context,
             MaterialPageRoute(builder: (context) => HomePage(userModel: widget.userModel, firebaseUser: widget.firebaseUser)
               ,),);
       }
@@ -102,7 +96,7 @@ class _ProfileState extends State<Profile> {
 
   data(User user) async {
    final getData = await FirebaseFirestore.instance.collection('users').doc(user.uid).get();
-   final getUserData = UserModel.fromMap(getData.data() as Map<String, String>);
+   final getUserData = UserModel.fromMap(getData.data() as Map<String, dynamic>);
    userData = getUserData;
 
 
@@ -307,8 +301,8 @@ class _ProfileState extends State<Profile> {
                 height: 20,
               ),
               ElevatedButton(
-                onPressed: () async {
-                  await uploadData();
+                onPressed: () {
+                   uploadData();
                   // log('--------------------------------${userData!.firstName.toString()}------------------------------------------------');
                 },
                style: ElevatedButton.styleFrom(
