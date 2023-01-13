@@ -1,9 +1,15 @@
+import 'package:badges/badges.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:e_commerce_app/Model/cart_model.dart';
 import 'package:e_commerce_app/Model/product_shose_model.dart';
-import 'package:e_commerce_app/cart_screen.dart';
+import 'package:e_commerce_app/components/cart_button.dart';
+import 'package:e_commerce_app/proividers/cart_Provider.dart';
+import 'package:e_commerce_app/theme/color_theme.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
+import 'package:provider/provider.dart';
+
+import 'cart_screen.dart';
 
 class ProductShowPage extends StatefulWidget {
   final ProductModel productModel;
@@ -15,49 +21,13 @@ class ProductShowPage extends StatefulWidget {
 }
 
 class _ProductShowPageState extends State<ProductShowPage> {
-  int _itemCount = 1;
-  final uid = FirebaseAuth.instance.currentUser!.uid;
+  User? user = FirebaseAuth.instance.currentUser;
   final cartUid = DateTime.now().millisecondsSinceEpoch;
-  String? total;
-
-  void addToCart() async {
-    CartModel cart = CartModel(
-        id: cartUid.toString(),
-        name: widget.productModel.name,
-        price: widget.productModel.price,
-        image: widget.productModel.imageUrl,
-        quantity: _itemCount.toString());
-    FirebaseFirestore.instance
-        .collection("users")
-        .doc(uid)
-        .collection("item")
-        .doc(cart.id)
-        .set({
-      "id": cart.id,
-      "name": cart.name,
-      "price": cart.price,
-      "image": cart.image,
-      "quantity": cart.quantity
-    });
-    Navigator.push(
-      context,
-      MaterialPageRoute(
-        builder: (context) {
-          return const CartScreen();
-        },
-      ),
-    );
-    total = cart.price! * int.parse(cart.quantity.toString());
-  }
 
   @override
   Widget build(BuildContext context) {
     return Scaffold(
       backgroundColor: Colors.white,
-      // appBar: AppBar(
-      //   backgroundColor: Colors.transparent,
-      //   elevation: 0.0,
-      // ),
       body: Stack(
         children: [
           Container(
@@ -70,10 +40,25 @@ class _ProductShowPageState extends State<ProductShowPage> {
               ),
             ),
           ),
-          Positioned(top: 15, right: 15,child:IconButton(
-            onPressed: (){},
-            icon: const Icon(Icons.favorite_border_rounded)
-          ) ),
+          Positioned(
+            right: 15,
+            top: 25 + MediaQuery.of(context).padding.top,
+            child: IconButton(
+                onPressed: () {
+                  Navigator.push(
+                    context,
+                    MaterialPageRoute(
+                      builder: (context) {
+                        return CartScreen();
+                      },
+                    ),
+                  );
+                },
+                icon: const Icon(
+                  Icons.shopping_cart,
+                  color: textColor,
+                )),
+          ),
           Positioned(
             left: 25,
             top: 25 + MediaQuery.of(context).padding.top,
@@ -95,10 +80,10 @@ class _ProductShowPageState extends State<ProductShowPage> {
                       ),
                     ],
                   ),
-                  child: Center(
+                  child: const Center(
                     child: Icon(
                       Icons.arrow_back,
-                      color: Colors.redAccent.shade100,
+                      color: textColor,
                     ),
                   ),
                 ),
@@ -108,7 +93,7 @@ class _ProductShowPageState extends State<ProductShowPage> {
           Align(
             alignment: Alignment.bottomCenter,
             child: Container(
-              height: MediaQuery.of(context).size.height * .5,
+              height: MediaQuery.of(context).size.height * .47,
               width: MediaQuery.of(context).size.width,
               decoration: BoxDecoration(
                 color: Colors.white,
@@ -136,9 +121,8 @@ class _ProductShowPageState extends State<ProductShowPage> {
                     child: Row(
                       children: [
                         Expanded(
-
                           child: Text(
-                            widget.productModel.name!,
+                            widget.productModel.name,
                             style: const TextStyle(
                                 fontSize: 25,
                                 fontWeight: FontWeight.bold,
@@ -156,19 +140,27 @@ class _ProductShowPageState extends State<ProductShowPage> {
                     ),
                     child: Row(
                       children: [
-                        Text(
+                        const Text(
                           "₹",
                           style: TextStyle(
-                            fontSize: 20,
-                            fontWeight: FontWeight.bold,
-                            color: Colors.redAccent.shade100,
-                          ),
+                              fontSize: 22,
+                              fontWeight: FontWeight.bold,
+                              color: textColor),
                         ),
                         Text(
-                          widget.productModel.price!,
+                          widget.productModel.price.toString(),
                           style: const TextStyle(
-                            fontSize: 24,
-                            fontWeight: FontWeight.bold,
+                              fontWeight: FontWeight.bold, fontSize: 22),
+                        ),
+                        const SizedBox(
+                          width: 5,
+                        ),
+                        Text(
+                          widget.productModel.normalPrice.toString(),
+                          style: const TextStyle(
+                            fontSize: 17,
+                            color: mrpColor,
+                            decoration: TextDecoration.lineThrough,
                           ),
                         ),
                       ],
@@ -184,72 +176,16 @@ class _ProductShowPageState extends State<ProductShowPage> {
                       padding: const EdgeInsets.symmetric(
                           vertical: 4, horizontal: 8),
                       decoration: BoxDecoration(
-                        color: Colors.redAccent.shade100,
+                        color: color,
                         borderRadius: BorderRadius.circular(10),
                       ),
                       child: const Text(
                         "shopped directly from factory",
-                        style: TextStyle(color: Colors.white),
+                        style: TextStyle(color: textColor),
                       ),
                     ),
                   ),
-                  Expanded(
-                    child: Row(
-                      mainAxisAlignment: MainAxisAlignment.center,
-                      children: [
-                        Container(
-                            height: 40,
-                            width: 40,
-                            decoration: BoxDecoration(
-                              color: const Color.fromRGBO(228, 228, 228, 1),
-                              borderRadius: BorderRadius.circular(10),
-                            ),
-                            child: Center(
-                              child: _itemCount != 1
-                                  ? IconButton(
-                                      icon: const Icon(Icons.remove),
-                                      onPressed: () {
-                                        setState(() {
-                                          _itemCount--;
-                                        });
-                                      },
-                                    )
-                                  : const Icon(Icons.remove),
-                            )),
-                        SizedBox(
-                          height: 49,
-                          width: 100,
-                          child: Center(
-                            child: Text(
-                              _itemCount.toString(),
-                              style: const TextStyle(
-                                fontSize: 20,
-                                fontWeight: FontWeight.bold,
-                              ),
-                            ),
-                          ),
-                        ),
-                        Container(
-                          height: 40,
-                          width: 40,
-                          decoration: BoxDecoration(
-                            color: Colors.redAccent.shade100,
-                            borderRadius: BorderRadius.circular(10),
-                          ),
-                          child: Center(
-                            child: IconButton(
-                              icon: const Icon(Icons.add),
-                              onPressed: () {
-                                setState(() {
-                                  _itemCount++;
-                                });
-                              },
-                            ),
-                          ),
-                        ),
-                      ],
-                    ),
-                  ),
+                  const Spacer(),
                   Container(
                     width: MediaQuery.of(context).size.width,
                     padding: const EdgeInsets.symmetric(
@@ -271,43 +207,30 @@ class _ProductShowPageState extends State<ProductShowPage> {
                     child: Row(
                       children: [
                         Expanded(
-                          child: Column(
-                            crossAxisAlignment: CrossAxisAlignment.start,
-                            children: [
-                              const Text("Total"),
-                              Text(
-                                total.toString(),
-                                // widget.productModel.price!,
-                                style: const TextStyle(
-                                  fontSize: 23,
-                                  fontWeight: FontWeight.bold,
+                          child: context
+                                      .watch<CartProvider>()
+                                      .getSingleTotal(widget.productModel) ==
+                                  0
+                              ? SizedBox()
+                              : Column(
+                                  crossAxisAlignment: CrossAxisAlignment.start,
+                                  children: [
+                                    const Text("Total"),
+                                    Text(
+                                      context
+                                          .watch<CartProvider>()
+                                          .getSingleTotal(widget.productModel)
+                                          .toString(),
+                                      // widget.productModel.price!,
+                                      style: const TextStyle(
+                                        fontSize: 23,
+                                        fontWeight: FontWeight.bold,
+                                      ),
+                                    ),
+                                  ],
                                 ),
-                              ),
-                            ],
-                          ),
                         ),
-                        InkWell(
-                          onTap: () async {
-                            addToCart();
-                          },
-                          borderRadius: BorderRadius.circular(10),
-                          child: Container(
-                            padding: const EdgeInsets.symmetric(
-                                vertical: 10, horizontal: 20),
-                            decoration: BoxDecoration(
-                              color: Colors.redAccent.shade100,
-                              borderRadius: BorderRadius.circular(10),
-                            ),
-                            child: const Text(
-                              "Add to Cart",
-                              style: TextStyle(
-                                fontSize: 20,
-                                fontWeight: FontWeight.w500,
-                                color: Colors.white,
-                              ),
-                            ),
-                          ),
-                        ),
+                        CartButton(product: widget.productModel)
                       ],
                     ),
                   ),

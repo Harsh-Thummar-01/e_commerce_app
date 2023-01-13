@@ -4,6 +4,7 @@ import 'dart:io';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:e_commerce_app/Model/user_model.dart';
 import 'package:e_commerce_app/home_page.dart';
+import 'package:e_commerce_app/theme/color_theme.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:firebase_storage/firebase_storage.dart';
 import 'package:flutter/cupertino.dart';
@@ -74,9 +75,9 @@ class _ProfileState extends State<Profile> {
     widget.userModel.comment = comment;
     widget.userModel.imageUrl = imageUrl;
 
-    if(widget.userModel.uid != null){
-      FirebaseFirestore.instance.collection('users').doc(widget.userModel.uid).update(widget.userModel.toMap());
-      Navigator.push(context,
+    if(widget.userModel.uid != null) {
+      await FirebaseFirestore.instance.collection('users').doc(widget.userModel.uid).update(widget.userModel.toMap());
+       Navigator.push(context,
           MaterialPageRoute(builder: (context) => HomePage(userModel: widget.userModel, firebaseUser: widget.firebaseUser)
             ,),);
     }
@@ -112,12 +113,12 @@ class _ProfileState extends State<Profile> {
               const SizedBox(
                 height: 80,
               ),
-              Text(
+              const Text(
                 'Fill The Profile',
                 style: TextStyle(
                     fontSize: 30,
                     fontWeight: FontWeight.bold,
-                    color: Colors.redAccent.shade100,),
+                    color: textColor,),
               ),
               const SizedBox(
                 height: 20,
@@ -127,10 +128,10 @@ class _ProfileState extends State<Profile> {
                    CircleAvatar(
                     radius: 80,
                     backgroundImage:imageFile != null ? FileImage(imageFile!) : null,
-                    backgroundColor: const Color(0x14ff8a80),
-                    child: imageFile == null ?  Icon(Icons.person,
+                    backgroundColor:color,
+                    child: imageFile == null ? const Icon(Icons.person,
                     size: 80,
-                    color: Colors.redAccent.shade100,):null,
+                    color: textColor):null,
                   ),
                   Positioned(
                     bottom: 10,
@@ -153,10 +154,10 @@ class _ProfileState extends State<Profile> {
                                             Navigator.pop(context);
                                             selectImage(ImageSource.gallery);
                                           },
-                                          child: CircleAvatar(
+                                          child:const CircleAvatar(
                                             radius: 25,
-                                            backgroundColor: Colors.redAccent.shade100,
-                                            child: const Icon(Icons.photo,color: Colors.white,),
+                                            backgroundColor: color,
+                                            child: Icon(Icons.photo,color: textColor,),
                                           ),
                                         ),
                                         const SizedBox(height: 2,),
@@ -170,10 +171,10 @@ class _ProfileState extends State<Profile> {
                                             Navigator.pop(context);
                                             selectImage(ImageSource.camera);
                                           },
-                                          child: CircleAvatar(
+                                          child: const CircleAvatar(
                                             radius: 25,
-                                            backgroundColor: Colors.redAccent.shade100,
-                                            child: const Icon(Icons.camera,color: Colors.white,),
+                                            backgroundColor: color,
+                                            child: Icon(Icons.camera,color: textColor,),
                                           ),
                                         ),
                                         const SizedBox(height: 2,),
@@ -192,7 +193,7 @@ class _ProfileState extends State<Profile> {
                         width: 30,
                         decoration: BoxDecoration(
                             borderRadius: BorderRadius.circular(12),
-                            color: Colors.redAccent.shade100,),
+                            color: textColor,),
                         child: const Icon(
                           Icons.edit,
                           color: Colors.white,
@@ -216,24 +217,24 @@ class _ProfileState extends State<Profile> {
                       child: TextFormField(
                         controller: firstcontrol,
                         decoration: InputDecoration(
-                            fillColor: const Color(0x14ff8a80),
+                            fillColor: color,
                             filled: true,
                             hintText: 'First Name',
                             hoverColor: Colors.grey.shade300,
                             prefixIcon: Icon(
                               Icons.person,
-                              color: Colors.redAccent.shade100,
+                              color: textColor,
                             ),
                             enabledBorder: OutlineInputBorder(
                               borderSide: BorderSide(
                                   width: 1.5,
-                                  color: Colors.redAccent.shade100,),
+                                  color: textColor,),
                               borderRadius: BorderRadius.circular(12),
                             ),
                             focusedBorder: OutlineInputBorder(
                               borderSide: BorderSide(
                                   width: 1.5,
-                                  color: Colors.redAccent.shade100,),
+                                  color: textColor,),
                               borderRadius: BorderRadius.circular(12),
                             ),),
                       ),
@@ -244,24 +245,24 @@ class _ProfileState extends State<Profile> {
                       child: TextFormField(
                         controller: lastcontrol,
                         decoration: InputDecoration(
-                            fillColor: const Color(0x14ff8a80),
+                            fillColor: color,
                             filled: true,
                             hintText: 'Last Name',
                             hoverColor: Colors.grey.shade300,
                             prefixIcon: Icon(
                               Icons.person,
-                              color: Colors.redAccent.shade100,
+                              color: textColor,
                             ),
                             enabledBorder: OutlineInputBorder(
                               borderSide: BorderSide(
                                   width: 1.5,
-                                  color: Colors.redAccent.shade100,),
+                                  color: textColor,),
                               borderRadius: BorderRadius.circular(12),
                             ),
                             focusedBorder: OutlineInputBorder(
                               borderSide: BorderSide(
                                   width: 1.5,
-                                  color: Colors.redAccent.shade100,),
+                                  color: textColor,),
                               borderRadius: BorderRadius.circular(12),
                             ),),
                       ),
@@ -272,24 +273,24 @@ class _ProfileState extends State<Profile> {
                       child: TextFormField(
                         controller: commentcontrol,
                         decoration: InputDecoration(
-                            fillColor: const Color(0x14ff8a80),
+                            fillColor: color,
                             filled: true,
                             hintText: 'Comment',
                             hoverColor: Colors.grey.shade300,
                             prefixIcon: Icon(
                               Icons.comment,
-                              color: Colors.redAccent.shade100,
+                              color: textColor,
                             ),
                             enabledBorder: OutlineInputBorder(
                               borderSide: BorderSide(
                                   width: 1.5,
-                                  color: Colors.redAccent.shade100,),
+                                  color: textColor,),
                               borderRadius: BorderRadius.circular(12),
                             ),
                             focusedBorder: OutlineInputBorder(
                               borderSide: BorderSide(
                                   width: 1.5,
-                                  color: Colors.redAccent.shade100,),
+                                  color: textColor,),
                               borderRadius: BorderRadius.circular(12),
                             ),),
                       ),
@@ -307,7 +308,7 @@ class _ProfileState extends State<Profile> {
                 },
                style: ElevatedButton.styleFrom(
                 elevation: 5,
-                backgroundColor: Colors.redAccent.shade100,
+                backgroundColor: textColor,
                 shape: const RoundedRectangleBorder(
                   borderRadius: BorderRadius.only(topLeft: Radius.circular(15),bottomRight: Radius.circular(15)),
                 ),

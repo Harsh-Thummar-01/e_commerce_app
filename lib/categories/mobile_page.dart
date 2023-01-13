@@ -2,6 +2,7 @@
 
 import 'package:e_commerce_app/Model/product_shose_model.dart';
 import 'package:e_commerce_app/product_show_page.dart';
+import 'package:e_commerce_app/theme/color_theme.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 
@@ -15,63 +16,65 @@ class MobilePage extends StatefulWidget {
 class _MobilePageState extends State<MobilePage> {
   static List mobile = [
     {
-      'id': '1',
+      'id': 1,
       'image': 'assets/images/p1.png',
       'name': 'IPHONE 14 PRO MAX',
-      'price': '1,49,999.00',
-      'favorute': false
+      'price': 149999.00,
+      "normalPrice": "1,89,999.00",
     },
     {
-      'id': '2',
+      'id': 2,
       'image': 'assets/images/p2.png',
       'name': 'VIVO V23 PRO',
-      'price': '29,999.00',
-      'favorute': false
+      'price': 29999.00,
+      "normalPrice": "44,599.00",
     },
     {
-      'id': '3',
+      'id': 3,
       'image': 'assets/images/p3.png',
       'name': 'OPPO A16',
-      'price': '15,999.00',
-      'favorute': false
+      'price': 15999.00,
+      "normalPrice": "24,599.00",
     },
     {
-      'id': '4',
+      'id': 4,
       'image': 'assets/images/p4.png',
       'name': 'MI 11X 5G',
-      'price': '14,999.00',
-      'favorute': false
+      'price': 14999.00,
+      "normalPrice": "24,599.00",
     },
     {
-      'id': '5',
+      'id': 5,
       'image': 'assets/images/p5.png',
       'name': 'SAMSUNG M53 5G',
-      'price': '13,999.00',
-      'favorute': false
+      'price': 13999.00,
+      "normalPrice": "20,599.00",
     },
     {
-      'id': '6',
+      'id': 6,
       'image': 'assets/images/p6.png',
       'name': 'NOTHING PHONE',
-      'price': '37,999.00',
-      'favorute': false
+      'price': 37999.00,
+      "normalPrice": "54,599.00",
     },
   ];
   List<ProductModel> products = List.generate(
-      mobile.length,
-          (index) => ProductModel(
-          id: "${mobile[index]['id']}",
-          imageUrl: "${mobile[index]['image']}",
-          name: "${mobile[index]['name']}",
-          price: "${mobile[index]['price']}",),);
+    mobile.length,
+    (index) => ProductModel(
+      id: mobile[index]['id'],
+      imageUrl: "${mobile[index]['image']}",
+      name: "${mobile[index]['name']}",
+      price: mobile[index]['price'],
+      normalPrice: "${mobile[index]['normalPrice']}",
+        quantity: 1
+    ),
+  );
   final uid = FirebaseAuth.instance.currentUser!.uid;
 
   // List selectedData = [];
 
-  Future<void> favoriteData(int index) async {
+  Future<void> favoriteData(int index) async {}
 
-
-  }
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -81,15 +84,15 @@ class _MobilePageState extends State<MobilePage> {
           onPressed: () {
             Navigator.of(context).pop();
           },
-          icon: Icon(
+          icon: const Icon(
             Icons.arrow_back_ios_new,
-            color: Colors.redAccent.shade100,
+            color: textColor,
           ),
         ),
-        title: Text(
+        title: const Text(
           'Mobile',
           style: TextStyle(
-            color: Colors.redAccent.shade100,
+            color: textColor,
             fontSize: 25,
             fontWeight: FontWeight.bold,
           ),
@@ -106,11 +109,11 @@ class _MobilePageState extends State<MobilePage> {
           shrinkWrap: true,
           children: List.generate(
             products.length,
-                (index) => Card(
-                  color: const Color(0xFFffe9e8),
-                  shape: RoundedRectangleBorder(
-                    borderRadius: BorderRadius.circular(12),
-                  ),
+            (index) => Card(
+              color: color,
+              shape: RoundedRectangleBorder(
+                borderRadius: BorderRadius.circular(12),
+              ),
               margin: const EdgeInsets.symmetric(vertical: 8, horizontal: 10),
               child: Padding(
                 padding: const EdgeInsets.symmetric(vertical: 8),
@@ -119,12 +122,13 @@ class _MobilePageState extends State<MobilePage> {
                     InkWell(
                       onTap: () {
                         Navigator.push(
-                            context,
-                            MaterialPageRoute(
-                              builder: (context) => ProductShowPage(
-                                productModel: products[index],
-                              ),
-                            ),);
+                          context,
+                          MaterialPageRoute(
+                            builder: (context) => ProductShowPage(
+                              productModel: products[index],
+                            ),
+                          ),
+                        );
                       },
                       child: Image.asset(
                         products[index].imageUrl!,
@@ -138,29 +142,40 @@ class _MobilePageState extends State<MobilePage> {
                           height: 8,
                         ),
                         Text(
-                          products[index].name!,
+                          products[index].name,
                           style: const TextStyle(fontSize: 13),
                         ),
                         const SizedBox(
                           height: 8,
                         ),
-                        RichText(
-                            text: TextSpan(children: [
-                              TextSpan(
-                                  text: '₹',
-                                  style: TextStyle(
-                                    color: Colors.redAccent.shade100,
-                                    fontSize: 12,
-                                    fontWeight: FontWeight.bold,
-                                  ),),
-                              TextSpan(
-                                  text: products[index].price,
-                                  style: const TextStyle(
-                                    color: Colors.black,
-                                    fontSize: 17,
-                                    fontWeight: FontWeight.bold,
-                                  ),),
-                            ],),),
+                        Row(
+                          mainAxisAlignment: MainAxisAlignment.center,
+                          children: [
+                            const Text(
+                              "₹",
+                              style: TextStyle(
+                                  fontSize: 19,
+                                  fontWeight: FontWeight.bold,
+                                  color: textColor),
+                            ),
+                            Text(
+                              products[index].price.toString(),
+                              style: const TextStyle(
+                                  fontWeight: FontWeight.bold, fontSize: 18),
+                            ),
+                          ],
+                        ),
+                        const SizedBox(
+                          height: 5,
+                        ),
+                        Text(
+                          products[index].normalPrice.toString(),
+                          style: const TextStyle(
+                            fontSize: 14,
+                            color: mrpColor,
+                            decoration: TextDecoration.lineThrough,
+                          ),
+                        ),
                       ],
                     ),
                   ],

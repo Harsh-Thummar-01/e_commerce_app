@@ -6,6 +6,7 @@ import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:e_commerce_app/Model/user_model.dart';
 import 'package:e_commerce_app/admin/login_page.dart';
 import 'package:e_commerce_app/admin/profile.dart';
+import 'package:e_commerce_app/theme/color_theme.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 
@@ -67,14 +68,14 @@ class _RegisterPageState extends State<RegisterPage> {
             child: Column(
               mainAxisAlignment: MainAxisAlignment.center,
               children: [
-                Padding(
-                  padding: const EdgeInsets.only(top: 80, bottom: 20),
+               const Padding(
+                  padding: EdgeInsets.only(top: 80, bottom: 20),
                   child: Text(
                     'Register Page',
                     style: TextStyle(
                         fontSize: 35,
                         fontWeight: FontWeight.bold,
-                        color: Colors.redAccent.shade100,),
+                        color: textColor,),
                   ),
                 ),
                 Form(
@@ -87,25 +88,25 @@ class _RegisterPageState extends State<RegisterPage> {
                         child: TextFormField(
                           textCapitalization: TextCapitalization.sentences,
                           controller: usercontrol,
-                          cursorColor: Colors.redAccent,
+                          cursorColor: textColor,
                           decoration: InputDecoration(
-                              fillColor: const Color(0x14ff8a80),
+                              fillColor: color,
                               filled: true,
-                              prefixIcon: Icon(Icons.person,
-                                  color: Colors.redAccent.shade100,),
+                              prefixIcon:const Icon(Icons.person,
+                                  color: textColor,),
                               border: const OutlineInputBorder(
                                   borderSide: BorderSide.none,),
                               enabledBorder: OutlineInputBorder(
                                 borderRadius: BorderRadius.circular(12),
-                                borderSide: BorderSide(
+                                borderSide:const BorderSide(
                                     width: 1.5,
-                                    color: Colors.redAccent.shade100,),
+                                    color: textColor,),
                               ),
                               focusedBorder: OutlineInputBorder(
                                 borderRadius: BorderRadius.circular(12),
-                                borderSide: BorderSide(
+                                borderSide: const BorderSide(
                                     width: 1.5,
-                                    color: Colors.redAccent.shade100,),
+                                    color: textColor,),
                               ),
                               hintText: 'User name',),
                         ),
@@ -115,25 +116,25 @@ class _RegisterPageState extends State<RegisterPage> {
                             horizontal: 10, vertical: 5,),
                         child: TextFormField(
                           controller: emailcontrol,
-                          cursorColor: Colors.redAccent,
+                          cursorColor: textColor,
                           decoration: InputDecoration(
-                              fillColor: const Color(0x14ff8a80),
+                              fillColor: color,
                               filled: true,
-                              prefixIcon: Icon(Icons.email,
-                                  color: Colors.redAccent.shade100,),
+                              prefixIcon: const Icon(Icons.email,
+                                  color: textColor,),
                               border: const OutlineInputBorder(
                                   borderSide: BorderSide.none,),
                               enabledBorder: OutlineInputBorder(
                                 borderRadius: BorderRadius.circular(12),
                                 borderSide: BorderSide(
                                     width: 1.5,
-                                    color: Colors.redAccent.shade100,),
+                                    color: textColor,),
                               ),
                               focusedBorder: OutlineInputBorder(
                                 borderRadius: BorderRadius.circular(12),
                                 borderSide: BorderSide(
                                     width: 1.5,
-                                    color: Colors.redAccent.shade100,),
+                                    color: textColor,),
                               ),
                               hintText: 'E-mail-Id',),
                         ),
@@ -143,25 +144,25 @@ class _RegisterPageState extends State<RegisterPage> {
                             horizontal: 10, vertical: 5,),
                         child: TextFormField(
                           controller: passwordcontrol,
-                          cursorColor: Colors.redAccent,
+                          cursorColor: textColor,
                           decoration: InputDecoration(
-                              fillColor: const Color(0x14ff8a80),
+                              fillColor: color,
                               filled: true,
                               prefixIcon: Icon(Icons.password,
-                                  color: Colors.redAccent.shade100,),
+                                  color: textColor,),
                               border: const OutlineInputBorder(
                                   borderSide: BorderSide.none,),
                               enabledBorder: OutlineInputBorder(
                                 borderRadius: BorderRadius.circular(12),
                                 borderSide: BorderSide(
                                     width: 1.5,
-                                    color: Colors.redAccent.shade100,),
+                                    color: textColor,),
                               ),
                               focusedBorder: OutlineInputBorder(
                                 borderRadius: BorderRadius.circular(12),
                                 borderSide: BorderSide(
                                     width: 1.5,
-                                    color: Colors.redAccent.shade100,),
+                                    color: textColor,),
                               ),
                               hintText: 'Password',),
                         ),
@@ -175,7 +176,7 @@ class _RegisterPageState extends State<RegisterPage> {
                         child: ElevatedButton(
                           style: ElevatedButton.styleFrom(
                               elevation: 4,
-                              backgroundColor: Colors.redAccent.shade100,
+                              backgroundColor: textColor,
                               shape: const RoundedRectangleBorder(
                                   borderRadius: BorderRadius.only(
                                     topLeft: Radius.circular(15),
@@ -209,7 +210,7 @@ class _RegisterPageState extends State<RegisterPage> {
                             child: Text(
                               'Login',
                               style:
-                              TextStyle(color: Colors.redAccent.shade100),
+                              TextStyle(color: textColor),
                             ),
                           ),
                         ],

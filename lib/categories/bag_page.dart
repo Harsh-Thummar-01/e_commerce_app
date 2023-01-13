@@ -1,9 +1,7 @@
 
-// ignore_for_file: public_member_api_docs, avoid_dynamic_calls, inference_failure_on_instance_creation, lines_longer_than_80_chars
-
 import 'package:e_commerce_app/Model/product_shose_model.dart';
-import 'package:e_commerce_app/favorite_page.dart';
 import 'package:e_commerce_app/product_show_page.dart';
+import 'package:e_commerce_app/theme/color_theme.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 
@@ -17,55 +15,63 @@ class BagPage extends StatefulWidget {
 class _BagPageState extends State<BagPage> {
   static List<dynamic> bag = [
     {
-      'id': '1',
+      'id': 1,
       'image': 'assets/images/3.png',
       'name': 'RED FANCY BAG',
-      'price': '999.00',
-      'favorute': false
+      'price': 999.00,
+      "normalPrice": "4599.00",
+
     },
     {
-      'id': '2',
+      'id': 2,
       'image': 'assets/images/bag2.png',
       'name': 'YELLOW FANCY BAG',
-      'price': '1999.00',
-      'favorute': false
+      'price': 1999.00,
+      "normalPrice": "4599.00",
+
     },
     {
-      'id': '3',
+      'id': 3,
       'image': 'assets/images/bag3.png',
       'name': 'FANCY NEW BAG',
-      'price': '2999.00',
-      'favorute': false
+      'price': 2999.00,
+      "normalPrice": "4599.00",
+
     },
     {
-      'id': '4',
+      'id': 4,
       'image': 'assets/images/bag4.png',
       'name': 'ORANGE FANCY BAG',
-      'price': '1999.00',
-      'favorute': false
+      'price': 1999.00,
+      "normalPrice": "4599.00",
+
     },
     {
-      'id': '5',
+      'id': 5,
       'image': 'assets/images/bag5.png',
       'name': 'GOLD CHAIN BAG',
-      'price': '3999.00',
-      'favorute': false
+      'price': 3999.00,
+      "normalPrice": "4599.00",
+
     },
     {
-      'id': '6',
+      'id': 6,
       'image': 'assets/images/bag6.png',
       'name': 'PLAN BLACK BAG',
-      'price': '799.00',
-      'favorute': false
+      'price': 799.00,
+      "normalPrice": "4599.00",
+
     },
   ];
   List<ProductModel> products = List.generate(
       bag.length,
           (index) => ProductModel(
-          id: "${bag[index]['id']}",
+          id: bag[index]['id'],
           imageUrl: "${bag[index]['image']}",
           name: "${bag[index]['name']}",
-          price: "${bag[index]['price']}",),);
+          price: bag[index]['price'],
+          normalPrice: "${bag[index]['normalPrice']}",
+              quantity: 1),);
   final uid = FirebaseAuth.instance.currentUser!.uid;
 
   // List selectedData = [];
@@ -80,15 +86,15 @@ class _BagPageState extends State<BagPage> {
           onPressed: () {
             Navigator.of(context).pop();
           },
-          icon: Icon(
+          icon:const Icon(
             Icons.arrow_back_ios_new,
-            color: Colors.redAccent.shade100,
+            color: textColor,
           ),
         ),
-        title: Text(
+        title: const Text(
           'Bag',
           style: TextStyle(
-            color: Colors.redAccent.shade100,
+            color: textColor,
             fontSize: 25,
             fontWeight: FontWeight.bold,
           ),
@@ -96,12 +102,7 @@ class _BagPageState extends State<BagPage> {
         centerTitle: true,
         backgroundColor: Colors.transparent,
         elevation: 0,
-        actions: [
-          IconButton(onPressed: (){
-            // getFavoriteData();
-            Navigator.push(context, MaterialPageRoute(builder: (context) =>const FavoritePage(),));
-          }, icon: const Icon(Icons.favorite),),
-        ],
+
       ),
 
       body: SingleChildScrollView(
@@ -113,7 +114,7 @@ class _BagPageState extends State<BagPage> {
           children: List.generate(
             products.length,
                 (index) => Card(
-                  color: const Color(0xFFffe9e8),
+                  color: color,
                   shape: RoundedRectangleBorder(
                     borderRadius: BorderRadius.circular(12),
                   ),
@@ -144,29 +145,41 @@ class _BagPageState extends State<BagPage> {
                           height: 8,
                         ),
                         Text(
-                          products[index].name!,
+                          products[index].name,
                           style: const TextStyle(fontSize: 13),
                         ),
                         const SizedBox(
                           height: 8,
                         ),
-                        RichText(
-                          text: TextSpan(children: [
-                            TextSpan(
-                                text: '₹',
-                                style: TextStyle(
-                                  color: Colors.redAccent.shade100,
-                                  fontSize: 12,
+                        Row(
+                          mainAxisAlignment: MainAxisAlignment.center,
+                          children: [
+                            const Text(
+                              "₹",
+                              style: TextStyle(
+                                  fontSize: 19,
                                   fontWeight: FontWeight.bold,
-                                ),),
-                            TextSpan(
-                              text: products[index].price,
+                                  color: textColor),
+                            ),
+                            Text(
+                              products[index].price.toString(),
                               style: const TextStyle(
-                                color: Colors.black,
-                                fontSize: 17,
-                                fontWeight: FontWeight.bold,
-                              ),),
-                          ],),),
+                                  fontWeight: FontWeight.bold, fontSize: 18),
+                            ),
+
+                          ],
+                        ),
+                        const SizedBox(
+                          height: 5,
+                        ),
+                        Text(
+                          products[index].normalPrice.toString(),
+                          style: const TextStyle(
+                            fontSize: 14,
+                            color: mrpColor,
+                            decoration: TextDecoration.lineThrough,
+                          ),
+                        ),
                       ],
                     ),
                   ],

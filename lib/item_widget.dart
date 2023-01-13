@@ -1,74 +1,80 @@
 import 'package:e_commerce_app/Model/product_shose_model.dart';
 import 'package:e_commerce_app/product_show_page.dart';
+import 'package:e_commerce_app/theme/color_theme.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 
 class ItemWidget extends StatefulWidget {
-
-  static List items = [
-    {
-      // "id": "1",
-      "image": "assets/images/1.png",
-      "name": "NIKE AIR MAX 200",
-      "price": "2599.00",
-      "favorute": false
-    },
-    {
-      "image": "assets/images/w1.png",
-      "name": "fASTRACK",
-      "price": "1999.00",
-      "favorute": false
-    },
-    {
-      "image": "assets/images/3.png",
-      "name": "RED FANCY BAG",
-      "price": "999.00",
-      "favorute": false
-    },
-    {
-      "image": "assets/images/p1.png",
-      "name": "IPHONE 14 PRO MAX",
-      "price": "1,49,999.00",
-      "favorute": false
-    },
-    {
-      "image": "assets/images/5.png",
-      "name": "JECKET",
-      "price": "1399.00",
-      "favorute": false
-    },
-  ];
-
-
-  const ItemWidget({super.key});
-
   @override
   State<ItemWidget> createState() => _ItemWidgetState();
 }
 
 class _ItemWidgetState extends State<ItemWidget> {
+  static List<dynamic> items = [
+    {
+      "id": 1,
+      "image": "assets/images/1.png",
+      "name": "NIKE AIR MAX 200",
+      "price": 2599.00,
+      "normalPrice": "4599.00",
+    },
+    {
+      "id":2,
+      "image": "assets/images/w1.png",
+      "name": "fASTRACK",
+      "price": 1999.00,
+      "normalPrice": "4599.00",
+    },
+    {
+      "id":3,
+      "image": "assets/images/3.png",
+      "name": "RED FANCY BAG",
+      "price": 999.00,
+      "normalPrice": "4599.00",
+    },
+    {
+      "id":4,
+      "image": "assets/images/p1.png",
+      "name": "IPHONE 14 PRO MAX",
+      "price": 149999.00,
+      "normalPrice": "1,89,999.00",
+    },
+    {
+      "id":5,
+      "image": "assets/images/5.png",
+      "name": "JECKET",
+      "price": 1399.00,
+      "normalPrice": "4999.00",
+    },
+  ];
   List<ProductModel> products = List.generate(
-      ItemWidget.items.length,
+      items.length,
       (index) => ProductModel(
-          id: ItemWidget.items[index]['id'],
-          imageUrl: ItemWidget.items[index]['image'],
-          name: ItemWidget.items[index]['name'],
-          price: ItemWidget.items[index]['price'],));
+            id: items[index]['id'],
+            imageUrl: "${items[index]['image']}",
+            name: "${items[index]['name']}",
+            normalPrice: "${items[index]['normalPrice']}",
+            price: items[index]['price'],
+          quantity: 1
+          ));
 
-  final uid = FirebaseAuth.instance.currentUser!.uid;
 
   // List selectedData = [];
   @override
   Widget build(BuildContext context) {
-    return GridView.count(
-      physics:const NeverScrollableScrollPhysics(),
-      childAspectRatio: 0.80,
-      crossAxisCount: 2,
+    return GridView.builder(
+
       shrinkWrap: true,
-      children: List.generate(
-        products.length,
-        (index) => Card(
-          color: const Color(0xFFffe9e8),
+      physics: const NeverScrollableScrollPhysics(),
+      scrollDirection: Axis.vertical,
+      gridDelegate: const SliverGridDelegateWithFixedCrossAxisCount(
+        crossAxisCount: 2,
+        childAspectRatio: 0.70,
+      ),
+      itemCount: products.length,
+      itemBuilder: (context, index) {
+        return Card(
+          color: color,
           shape: RoundedRectangleBorder(
             borderRadius: BorderRadius.circular(12),
           ),
@@ -99,41 +105,49 @@ class _ItemWidgetState extends State<ItemWidget> {
                       height: 8,
                     ),
                     Text(
-                      products[index].name!,
+                      products[index].name,
                       style: const TextStyle(fontSize: 13),
                     ),
                     const SizedBox(
                       height: 8,
                     ),
-                    Text(
+                    const Text(
                       "Trending Now",
                       style: TextStyle(
                           fontSize: 9,
                           fontWeight: FontWeight.bold,
-                          color: Colors.redAccent.shade100),
+                          color: textColor),
                     ),
                     const SizedBox(
                       height: 8,
                     ),
-                    RichText(
-                      text: TextSpan(
-                        children: [
-                          TextSpan(
-                              text: "₹",
-                              style: TextStyle(
-                                color: Colors.redAccent.shade100,
-                                fontSize: 12,
-                                fontWeight: FontWeight.bold,
-                              )),
-                          TextSpan(
-                            text: products[index].price,
-                            style: const TextStyle(
-                              color: Colors.black,
-                              fontSize: 17,
+                    Row(
+                      mainAxisAlignment: MainAxisAlignment.center,
+                      children: [
+                        const Text(
+                          "₹",
+                          style: TextStyle(
+                              fontSize: 19,
                               fontWeight: FontWeight.bold,
-                            ),
-                          ),
-                        ],
+                              color: textColor),
+                        ),
+                        Text(
+                          products[index].price.toString(),
+                          style: const TextStyle(
+                              fontWeight: FontWeight.bold, fontSize: 18),
+                        ),
+
+                      ],
+                    ),
+                    const SizedBox(
+                      height: 5,
+                    ),
+                    Text(
+                      products[index].normalPrice.toString(),
+                      style: const TextStyle(
+                        fontSize: 14,
+                        color: mrpColor,
+                        decoration: TextDecoration.lineThrough,
                       ),
                     ),
                   ],
@@ -141,8 +155,10 @@ class _ItemWidgetState extends State<ItemWidget> {
               ],
             ),
           ),
-        ),
-      ),
+        );
+      },
+
+
     );
   }
 }

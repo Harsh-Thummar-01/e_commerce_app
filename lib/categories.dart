@@ -5,6 +5,7 @@ import 'package:e_commerce_app/categories/jecket_page.dart';
 import 'package:e_commerce_app/categories/mobile_page.dart';
 import 'package:e_commerce_app/categories/shose_page.dart';
 import 'package:e_commerce_app/categories/watch_page.dart';
+import 'package:e_commerce_app/theme/color_theme.dart';
 import 'package:flutter/material.dart';
 
 
@@ -31,8 +32,8 @@ class Categories extends StatelessWidget {
               margin: const EdgeInsets.symmetric(horizontal: 10),
               padding: const EdgeInsets.symmetric(vertical: 5,horizontal: 20),
               decoration: BoxDecoration(
-                color: const Color.fromARGB(47, 255, 138, 128),
-                borderRadius: BorderRadius.circular(20),
+                color: color,
+                borderRadius: BorderRadius.circular(15),
               ),
               child: Row(
                 children: [
@@ -57,8 +58,8 @@ class Categories extends StatelessWidget {
               margin: const EdgeInsets.symmetric(horizontal: 10),
               padding: const EdgeInsets.symmetric(vertical: 5,horizontal: 20),
               decoration: BoxDecoration(
-                color: const Color.fromARGB(47, 255, 138, 128),
-                borderRadius: BorderRadius.circular(20),
+                color: color,
+                borderRadius: BorderRadius.circular(15),
               ),
               child: Row(
                 children: [
@@ -83,8 +84,8 @@ class Categories extends StatelessWidget {
               margin: const EdgeInsets.symmetric(horizontal: 10),
               padding: const EdgeInsets.symmetric(vertical: 5,horizontal: 20),
               decoration: BoxDecoration(
-                color: const Color.fromARGB(47, 255, 138, 128),
-                borderRadius: BorderRadius.circular(20),
+                color: color,
+                borderRadius: BorderRadius.circular(15),
               ),
               child: Row(
                 children: [
@@ -110,8 +111,8 @@ class Categories extends StatelessWidget {
               margin: const EdgeInsets.symmetric(horizontal: 10),
               padding: const EdgeInsets.symmetric(vertical: 5,horizontal: 20),
               decoration: BoxDecoration(
-                color: const Color.fromARGB(47, 255, 138, 128),
-                borderRadius: BorderRadius.circular(20),
+                color: color,
+                borderRadius: BorderRadius.circular(15),
               ),
               child: Row(
                 children: [
@@ -137,8 +138,8 @@ class Categories extends StatelessWidget {
               margin: const EdgeInsets.symmetric(horizontal: 10),
               padding: const EdgeInsets.symmetric(vertical: 5,horizontal: 20),
               decoration: BoxDecoration(
-                color: const Color.fromARGB(47, 255, 138, 128),
-                borderRadius: BorderRadius.circular(20),
+                color: color,
+                borderRadius: BorderRadius.circular(15),
               ),
               child: Row(
                 children: [

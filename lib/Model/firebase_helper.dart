@@ -13,5 +13,16 @@ class FirebaseHelper {
     }
     return userModel;
   }
+  // static Future getCartModelbyId(String uid) async {
+  //   CartModel? cartModel;
+  //   DocumentSnapshot docsnapshot = await FirebaseFirestore.instance.collection("users").doc(uid).collection("item").doc(cartModel!.id.toString()
+  //   ).get();
+  //
+  //
+  //   if (docsnapshot.data() != null) {
+  //     cartModel = CartModel.fromMap(docsnapshot.data() as Map<String, dynamic>);
+  //   }
+  //   return cartModel;
+  // }
 
 }

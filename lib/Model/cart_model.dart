@@ -1,11 +1,11 @@
 
-// ignore_for_file: public_member_api_docs, duplicate_ignore
+
 
 class CartModel{
-  String? id;
+  int? id;
   String? name;
-  String? price;
-  String? quantity;
+  double? price;
+  int? quantity;
   String? image;
 
   CartModel({this.id, this.name, this.price, this.image, this.quantity});

@@ -5,6 +5,8 @@ import 'package:e_commerce_app/product_show_page.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 
+import '../theme/color_theme.dart';
+
 class WatchPage extends StatefulWidget {
   const WatchPage({super.key});
 
@@ -15,42 +17,48 @@ class WatchPage extends StatefulWidget {
 class _WatchPageState extends State<WatchPage> {
   static List watchs = [
     {
+      "id": 1,
       'image':'assets/images/w1.png',
       'name':'fASTRACK',
-      'price':'1999.00',
-      'favorute': false
+      'price':1999.00,
+      "normalPrice": "4599.00",
     },
 
     {
+      "id": 2,
       'image':'assets/images/w2.png',
       'name':'TITAN',
-      'price':'3999.00',
-      'favorute': false
+      'price':3999.00,
+      "normalPrice": "4599.00",
     },
 
     {
+      "id": 3,
       'image':'assets/images/w3.png',
       'name':'RADO',
-      'price':'2999.00',
-      'favorute': false
+      'price':2999.00,
+      "normalPrice": "4599.00",
     },
     {
+      "id": 4,
       'image':'assets/images/w4.png',
       'name':'CITIZEN',
-      'price':'1599.00',
-      'favorute': false
+      'price':1599.00,
+      "normalPrice": "4599.00",
     },
     {
+      "id": 5,
       'image':'assets/images/w5.png',
       'name':'QUARTZ',
-      'price':'1999.00',
-      'favorute': false
+      'price':1999.00,
+      "normalPrice": "4599.00",
     },
     {
+      "id": 6,
       'image':'assets/images/w6.png',
       'name':'YACHT-MASTER',
-      'price':'3599.00',
-      'favorute': false
+      'price':3599.00,
+      "normalPrice": "4599.00",
     },
 
   ];
@@ -58,18 +66,16 @@ class _WatchPageState extends State<WatchPage> {
   List<ProductModel> products = List.generate(
       watchs.length,
           (index) => ProductModel(
-          id: "${watchs[index]['id']}",
+          id: watchs[index]['id'],
           imageUrl: "${watchs[index]['image']}",
           name: "${watchs[index]['name']}",
-          price: "${watchs[index]['price']}",),);
+          price: watchs[index]['price'],
+          normalPrice: "${watchs[index]['normalPrice']}",
+              quantity: 1),);
   final uid = FirebaseAuth.instance.currentUser!.uid;
 
   // List selectedData = [];
 
-  Future<void> favoriteData(int index) async {
-
-
-  }
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -79,15 +85,15 @@ class _WatchPageState extends State<WatchPage> {
           onPressed: () {
             Navigator.of(context).pop();
           },
-          icon: Icon(
+          icon:const Icon(
             Icons.arrow_back_ios_new,
-            color: Colors.redAccent.shade100,
+            color: textColor,
           ),
         ),
-        title: Text(
+        title: const Text(
           'Watch',
           style: TextStyle(
-            color: Colors.redAccent.shade100,
+            color: textColor,
             fontSize: 25,
             fontWeight: FontWeight.bold,
           ),
@@ -105,7 +111,7 @@ class _WatchPageState extends State<WatchPage> {
           children: List.generate(
             products.length,
                 (index) => Card(
-                  color: const Color(0xFFffe9e8),
+                  color: color,
                   shape: RoundedRectangleBorder(
                     borderRadius: BorderRadius.circular(12),
                   ),
@@ -136,7 +142,7 @@ class _WatchPageState extends State<WatchPage> {
                           height: 8,
                         ),
                         Text(
-                          products[index].name!,
+                          products[index].name,
                           style: const TextStyle(fontSize: 13),
                         ),
                         const SizedBox(
@@ -145,15 +151,15 @@ class _WatchPageState extends State<WatchPage> {
                         ),
                         RichText(
                             text: TextSpan(children: [
-                              TextSpan(
+                              const TextSpan(
                                   text: '₹',
                                   style: TextStyle(
-                                    color: Colors.redAccent.shade100,
+                                    color: textColor,
                                     fontSize: 12,
                                     fontWeight: FontWeight.bold,
                                   ),),
                               TextSpan(
-                                  text: products[index].price,
+                                  text: products[index].price.toString(),
                                   style: const TextStyle(
                                     color: Colors.black,
                                     fontSize: 17,

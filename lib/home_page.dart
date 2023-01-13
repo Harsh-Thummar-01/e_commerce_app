@@ -4,6 +4,8 @@ import 'package:e_commerce_app/admin/profile.dart';
 import 'package:e_commerce_app/cart_screen.dart';
 import 'package:e_commerce_app/categories.dart';
 import 'package:e_commerce_app/item_widget.dart';
+import 'package:e_commerce_app/local_storage/info_plus.dart';
+import 'package:e_commerce_app/theme/color_theme.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 
@@ -43,14 +45,14 @@ class _HomePageState extends State<HomePage> {
         child: ListView(
           children: [
             DrawerHeader(
-              decoration: const BoxDecoration(color: Color(0xFFffe9e8)),
+              decoration: const BoxDecoration(color: color),
               child: Column(
                 crossAxisAlignment: CrossAxisAlignment.start,
                 children: [
                   Container(
                     decoration: BoxDecoration(
                       border: Border.all(
-                          width: 2, color: Colors.redAccent.shade100),
+                          width: 2, color: textColor),
                       borderRadius: BorderRadius.circular(45),
                     ),
                     child: CircleAvatar(
@@ -92,12 +94,12 @@ class _HomePageState extends State<HomePage> {
                 padding:
                     const EdgeInsets.symmetric(vertical: 8.0, horizontal: 15),
                 child: Row(
-                  children: [
-                    Icon(Icons.home, color: Colors.redAccent.shade100),
-                    const SizedBox(
+                  children:const [
+                    Icon(Icons.home, color: textColor),
+                     SizedBox(
                       width: 10,
                     ),
-                    const Text(
+                     Text(
                       "Home",
                       style: TextStyle(
                         fontSize: 17,
@@ -118,7 +120,7 @@ class _HomePageState extends State<HomePage> {
                   context,
                   MaterialPageRoute(
                     builder: (context) {
-                      return const CartScreen();
+                      return CartScreen();
                     },
                   ),
                 );
@@ -127,12 +129,12 @@ class _HomePageState extends State<HomePage> {
                 padding:
                     const EdgeInsets.symmetric(vertical: 8.0, horizontal: 15),
                 child: Row(
-                  children: [
-                    Icon(Icons.shopping_cart, color: Colors.redAccent.shade100),
-                    const SizedBox(
+                  children:const [
+                    Icon(Icons.shopping_cart, color: textColor),
+                     SizedBox(
                       width: 10,
                     ),
-                    const Text(
+                     Text(
                       "Shopping cart",
                       style: TextStyle(
                         fontSize: 17,
@@ -157,12 +159,12 @@ class _HomePageState extends State<HomePage> {
                 padding:
                     const EdgeInsets.symmetric(vertical: 8.0, horizontal: 15),
                 child: Row(
-                  children: [
-                    Icon(Icons.person, color: Colors.redAccent.shade100),
-                    const SizedBox(
+                  children:const [
+                    Icon(Icons.person, color: textColor),
+                     SizedBox(
                       width: 10,
                     ),
-                    const Text(
+                    Text(
                       "Profile",
                       style: TextStyle(
                         fontSize: 17,
@@ -191,12 +193,12 @@ class _HomePageState extends State<HomePage> {
                 padding:
                     const EdgeInsets.symmetric(vertical: 8.0, horizontal: 15),
                 child: Row(
-                  children: [
-                    Icon(Icons.logout, color: Colors.redAccent.shade100),
-                    const SizedBox(
+                  children:const [
+                    Icon(Icons.logout, color: textColor),
+                     SizedBox(
                       width: 10,
                     ),
-                    const Text(
+                     Text(
                       "LogOut",
                       style: TextStyle(
                         fontSize: 17,
@@ -208,6 +210,10 @@ class _HomePageState extends State<HomePage> {
                 ),
               ),
             ),
+            const SizedBox(
+              height: 20,
+            ),
+            Text("V ${info.packageInfo!.version}")
           ],
         ),
       ),
@@ -225,7 +231,7 @@ class _HomePageState extends State<HomePage> {
                       icon: Image.asset("assets/images/drawer1.png",
                           height: 30,
                           width: 30,
-                          color: Colors.redAccent.shade100),
+                          color: textColor),
                       onPressed: () => Scaffold.of(context).openDrawer(),
                     );
                   }),
@@ -233,16 +239,16 @@ class _HomePageState extends State<HomePage> {
                     children: [
                       Text(
                         "${widget.userModel.firstName!} ${widget.userModel.lastName!}",
-                        style: TextStyle(
+                        style:const TextStyle(
                             fontSize: 20,
-                            color: Colors.redAccent.shade100,
+                            color: textColor,
                             fontWeight: FontWeight.bold),
                       ),
                       Text(
                         widget.userModel.email!,
-                        style: TextStyle(
+                        style:const TextStyle(
                           fontSize: 15,
-                          color: Colors.redAccent.shade100,
+                          color: textColor
                         ),
                       ),
                     ],
@@ -250,7 +256,7 @@ class _HomePageState extends State<HomePage> {
                   Container(
                     decoration: BoxDecoration(
                       border: Border.all(
-                          width: 2, color: Colors.redAccent.shade100),
+                          width: 2, color: textColor),
                       borderRadius: BorderRadius.circular(30),
                     ),
 
@@ -259,7 +265,7 @@ class _HomePageState extends State<HomePage> {
                       backgroundImage:
                           NetworkImage(
                               widget.userModel.imageUrl.toString()),
-                      backgroundColor: Colors.redAccent.shade100,
+                      backgroundColor: textColor,
                     ),
                   ),
                 ],
@@ -274,15 +280,15 @@ class _HomePageState extends State<HomePage> {
                 Container(
                   margin: const EdgeInsets.only(left: 20, top: 10),
                   alignment: Alignment.centerLeft,
-                  child: Text(
+                  child:const Text(
                     "Best Selling",
                     style: TextStyle(
-                        color: Colors.redAccent.shade100,
+                        color: textColor,
                         fontWeight: FontWeight.bold,
                         fontSize: 25),
                   ),
                 ),
-                const ItemWidget(),
+                ItemWidget(),
               ],
             )
           ],

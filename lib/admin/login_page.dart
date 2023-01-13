@@ -5,6 +5,7 @@ import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:e_commerce_app/Model/user_model.dart';
 import 'package:e_commerce_app/admin/register_page.dart';
 import 'package:e_commerce_app/home_page.dart';
+import 'package:e_commerce_app/theme/color_theme.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 
@@ -29,7 +30,6 @@ class _LoginPageState extends State<LoginPage> {
       credential = await FirebaseAuth.instance
           .signInWithEmailAndPassword(email: email, password: password);
     } on FirebaseAuthException catch (e) {
-      print("============$e");
       stdout.write(e.message.toString());
     }
 
@@ -52,7 +52,7 @@ class _LoginPageState extends State<LoginPage> {
       stdout.write('Log In Siccessfully');
     }
     else{
-      print("Log in failed");
+      stdout.write("Log in failed");
     }
   }
 
@@ -64,14 +64,14 @@ class _LoginPageState extends State<LoginPage> {
           child: Column(
             mainAxisAlignment: MainAxisAlignment.center,
             children: [
-              Padding(
-                padding: const EdgeInsets.only(top: 100, bottom: 20),
+              const Padding(
+                padding: EdgeInsets.only(top: 100, bottom: 20),
                 child: Text(
                   'Login Page',
                   style: TextStyle(
                     fontSize: 35,
                     fontWeight: FontWeight.bold,
-                    color: Colors.redAccent.shade100,
+                    color: textColor,
                   ),
                 ),
               ),
@@ -86,26 +86,26 @@ class _LoginPageState extends State<LoginPage> {
                       ),
                       child: TextFormField(
                         controller: emailControl,
-                        cursorColor: Colors.redAccent,
+                        cursorColor: textColor,
                         decoration: InputDecoration(
-                          fillColor: const Color(0x14ff8a80),
+                          fillColor: color,
                           filled: true,
-                          prefixIcon: Icon(
+                          prefixIcon: const Icon(
                             Icons.email,
-                            color: Colors.redAccent.shade100,
+                            color: textColor,
                           ),
                           enabledBorder: OutlineInputBorder(
                             borderRadius: BorderRadius.circular(12),
-                            borderSide: BorderSide(
+                            borderSide: const BorderSide(
                               width: 1.5,
-                              color: Colors.redAccent.shade100,
+                              color: textColor,
                             ),
                           ),
                           focusedBorder: OutlineInputBorder(
                             borderRadius: BorderRadius.circular(12),
-                            borderSide: BorderSide(
+                            borderSide: const BorderSide(
                               width: 1.5,
-                              color: Colors.redAccent.shade100,
+                              color: textColor,
                             ),
                           ),
                           hintText: 'E-mail-Id',
@@ -118,29 +118,29 @@ class _LoginPageState extends State<LoginPage> {
                       child: TextFormField(
                         obscureText: true,
                         controller: passwordControl,
-                        cursorColor: Colors.redAccent,
+                        cursorColor: textColor,
                         decoration: InputDecoration(
-                          fillColor: const Color(0x14ff8a80),
+                          fillColor: color,
                           filled: true,
-                          prefixIcon: Icon(
+                          prefixIcon:const Icon(
                             Icons.password,
-                            color: Colors.redAccent.shade100,
+                            color: textColor,
                           ),
                           border: const OutlineInputBorder(
                             borderSide: BorderSide.none,
                           ),
                           enabledBorder: OutlineInputBorder(
                             borderRadius: BorderRadius.circular(12),
-                            borderSide: BorderSide(
+                            borderSide: const BorderSide(
                               width: 1.5,
-                              color: Colors.redAccent.shade100,
+                              color: textColor,
                             ),
                           ),
                           focusedBorder: OutlineInputBorder(
                             borderRadius: BorderRadius.circular(12),
-                            borderSide: BorderSide(
+                            borderSide: const BorderSide(
                               width: 1.5,
-                              color: Colors.redAccent.shade100,
+                              color: textColor,
                             ),
                           ),
                           hintText: 'Password',
@@ -156,7 +156,7 @@ class _LoginPageState extends State<LoginPage> {
               ElevatedButton(
                 style: ElevatedButton.styleFrom(
                   elevation: 4,
-                  backgroundColor: Colors.redAccent.shade100,
+                  backgroundColor: textColor,
                   shape: const RoundedRectangleBorder(
                     borderRadius: BorderRadius.only(
                       topLeft: Radius.circular(15),
@@ -187,9 +187,9 @@ class _LoginPageState extends State<LoginPage> {
                         ),
                       );
                     },
-                    child: Text(
+                    child: const Text(
                       'Register',
-                      style: TextStyle(color: Colors.redAccent.shade100),
+                      style: TextStyle(color:textColor),
                     ),
                   ),
                 ],
