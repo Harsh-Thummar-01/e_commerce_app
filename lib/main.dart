@@ -1,5 +1,4 @@
-import 'package:e_commerce_app/Model/firebase_helper.dart';
-import 'package:e_commerce_app/Model/user_model.dart';
+
 import 'package:e_commerce_app/admin/login_page.dart';
 
 import 'package:e_commerce_app/home_page.dart';
@@ -22,6 +21,7 @@ void main() async {
     ChangeNotifierProvider(
       create: (context) => CartProvider(),
     ),
+
   ], child: const MyApp()));
 }
 
@@ -52,24 +52,19 @@ class MainScreen extends StatefulWidget {
 }
 
 class _MainScreenState extends State<MainScreen> {
-  User? currentUser = FirebaseAuth.instance.currentUser;
 
   @override
   Widget build(BuildContext context) {
     return StreamBuilder(
       stream: FirebaseAuth.instance.authStateChanges(),
       builder: (context, snapshot) {
-        if (snapshot.data != null) {
-          return FutureBuilder(
-            future: FirebaseHelper.getUserModelbyId(currentUser!.uid),
-            builder: (context, userSnapshot) {
-              return HomePage(
-                  userModel: userSnapshot.data!, firebaseUser: currentUser!);
-            },
-          );
-        } else {
-          return LoginPage();
+        if(snapshot.hasData){
+          return const HomePage();
         }
+        else
+          {
+            return const LoginPage();
+          }
       },
     );
   }

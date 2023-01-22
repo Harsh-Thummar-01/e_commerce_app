@@ -16,9 +16,38 @@ class SharedPrefs {
     _sharedPreferences ??= await SharedPreferences.getInstance();
   }
 
-  set name(String value) => _sharedPreferences!.setString("name", value);
+  logOut(){
+     _sharedPreferences?.clear();
+  }
 
-  String get name => _sharedPreferences!.getString("name") ?? '';
+  set uid(String value) => _sharedPreferences!.setString("uid", value);
+
+  String get uid => _sharedPreferences!.getString("uid") ?? '';
+
+  set email(String value) => _sharedPreferences!.setString("email", value);
+
+  String get email => _sharedPreferences!.getString("email") ?? '';
+
+  set userName(String value) => _sharedPreferences!.setString("userName", value);
+
+  String get userName => _sharedPreferences!.getString("userName") ?? '';
+
+  set firstName(String value) => _sharedPreferences!.setString("firstName", value);
+
+  String get firstName => _sharedPreferences!.getString("firstName") ?? '';
+
+  set lastName(String value) => _sharedPreferences!.setString("lastName", value);
+
+  String get lastName => _sharedPreferences!.getString("lastName") ?? '';
+
+  set comment(String value) => _sharedPreferences!.setString("comment", value);
+
+  String get comment => _sharedPreferences!.getString("comment") ?? '';
+
+  set imageUrl(String value) => _sharedPreferences!.setString("imageUrl", value);
+
+  String get imageUrl => _sharedPreferences!.getString("imageUrl") ?? '';
+
 }
 
 final sharedPrefs = SharedPrefs();

@@ -5,18 +5,16 @@ import 'package:e_commerce_app/cart_screen.dart';
 import 'package:e_commerce_app/categories.dart';
 import 'package:e_commerce_app/item_widget.dart';
 import 'package:e_commerce_app/local_storage/info_plus.dart';
+import 'package:e_commerce_app/local_storage/sharedprefs.dart';
 import 'package:e_commerce_app/theme/color_theme.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
+import 'package:provider/provider.dart';
 
 class HomePage extends StatefulWidget {
-  final UserModel userModel;
-  final User firebaseUser;
 
   const HomePage({
     super.key,
-    required this.userModel,
-    required this.firebaseUser,
   });
 
   @override
@@ -24,7 +22,7 @@ class HomePage extends StatefulWidget {
 }
 
 class _HomePageState extends State<HomePage> {
-  final uid = FirebaseAuth.instance.currentUser!.uid;
+
 
 // getFavoriteData() async {
 
@@ -39,6 +37,13 @@ class _HomePageState extends State<HomePage> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
+      floatingActionButton: FloatingActionButton(
+        backgroundColor: textColor,
+        onPressed: (){
+          Navigator.push(context, MaterialPageRoute(builder: (context) => const CartScreen(),));
+        },
+        child:const Icon(Icons.shopping_cart,color: Colors.white,),
+      ),
       backgroundColor: Colors.white,
       drawer: Drawer(
         elevation: 10.0,
@@ -57,17 +62,17 @@ class _HomePageState extends State<HomePage> {
                     ),
                     child: CircleAvatar(
                       radius: 40,
-                      backgroundImage: NetworkImage(widget.userModel.imageUrl!),
+                      backgroundImage: NetworkImage(sharedPrefs.imageUrl),
                     ),
                   ),
                   Text(
-                    "${widget.userModel.firstName} ${widget.userModel.lastName}",
+                    "${sharedPrefs.firstName} ${sharedPrefs.lastName}",
                     style:
                         const TextStyle(fontWeight: FontWeight.bold, fontSize: 22.0),
                   ),
                   const SizedBox(height: 5.0),
                   Text(
-                    widget.userModel.email!,
+                    sharedPrefs.email,
                     style:
                         const TextStyle(fontWeight: FontWeight.bold, fontSize: 16.0),
                   ),
@@ -83,9 +88,7 @@ class _HomePageState extends State<HomePage> {
                   context,
                   MaterialPageRoute(
                     builder: (context) {
-                      return HomePage(
-                          userModel: widget.userModel,
-                          firebaseUser: widget.firebaseUser);
+                      return HomePage();
                     },
                   ),
                 );
@@ -152,7 +155,7 @@ class _HomePageState extends State<HomePage> {
             InkWell(
               onTap: () {
                 Navigator.push(context, MaterialPageRoute(builder: (context) {
-                  return Profile(userModel: widget.userModel, firebaseUser: widget.firebaseUser);
+                  return Profile();
                 },),);
               },
               child: Padding(
@@ -182,6 +185,7 @@ class _HomePageState extends State<HomePage> {
             InkWell(
               onTap: () async {
                  FirebaseAuth.instance.signOut();
+                 sharedPrefs.logOut();
                 Navigator.pushReplacement(
                   context,
                   MaterialPageRoute(
@@ -235,24 +239,14 @@ class _HomePageState extends State<HomePage> {
                       onPressed: () => Scaffold.of(context).openDrawer(),
                     );
                   }),
-                  Column(
-                    children: [
-                      Text(
-                        "${widget.userModel.firstName!} ${widget.userModel.lastName!}",
-                        style:const TextStyle(
-                            fontSize: 20,
-                            color: textColor,
-                            fontWeight: FontWeight.bold),
-                      ),
-                      Text(
-                        widget.userModel.email!,
-                        style:const TextStyle(
-                          fontSize: 15,
-                          color: textColor
-                        ),
-                      ),
-                    ],
+                  Text(
+                    "${sharedPrefs.firstName} ${sharedPrefs.lastName}",
+                    style:const TextStyle(
+                        fontSize: 23,
+                        color: textColor,
+                        fontWeight: FontWeight.bold),
                   ),
+
                   Container(
                     decoration: BoxDecoration(
                       border: Border.all(
@@ -264,7 +258,7 @@ class _HomePageState extends State<HomePage> {
                       radius: 20,
                       backgroundImage:
                           NetworkImage(
-                              widget.userModel.imageUrl.toString()),
+                              sharedPrefs.imageUrl.toString()),
                       backgroundColor: textColor,
                     ),
                   ),

@@ -19,7 +19,11 @@ class CartScreen extends StatefulWidget {
 class _CartScreenState extends State<CartScreen> {
   User? user = FirebaseAuth.instance.currentUser;
 
-  int _itemCount = 1;
+  @override
+  void initState() {
+    super.initState();
+    context.read<CartProvider>().products;
+  }
 
   @override
   Widget build(BuildContext context) {

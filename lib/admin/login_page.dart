@@ -1,13 +1,16 @@
 // ignore_for_file: public_member_api_docs, lines_longer_than_80_chars, cast_nullable_to_non_nullable, inference_failure_on_instance_creation, use_build_context_synchronously
 
+import 'dart:developer';
 import 'dart:io';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:e_commerce_app/Model/user_model.dart';
 import 'package:e_commerce_app/admin/register_page.dart';
 import 'package:e_commerce_app/home_page.dart';
+import 'package:e_commerce_app/local_storage/sharedprefs.dart';
 import 'package:e_commerce_app/theme/color_theme.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
+import 'package:provider/provider.dart';
 
 class LoginPage extends StatefulWidget {
   const LoginPage({super.key});
@@ -41,12 +44,20 @@ class _LoginPageState extends State<LoginPage> {
           await FirebaseFirestore.instance.collection('users').doc(uid).get();
       final userModel =
           UserModel.fromMap(userData.data() as Map<String, dynamic>);
-
-      await Navigator.push(
+      setState(() {
+        sharedPrefs.uid = userModel.uid.toString();
+        sharedPrefs.email = userModel.email.toString();
+        sharedPrefs.userName = userModel.userName.toString();
+        sharedPrefs.firstName = userModel.firstName.toString();
+        sharedPrefs.lastName = userModel.lastName.toString();
+        sharedPrefs.comment = userModel.comment.toString();
+        sharedPrefs.imageUrl = userModel.imageUrl.toString();
+      });
+       Navigator.push(
           context,
           MaterialPageRoute(
             builder: (context) =>
-                HomePage(userModel: userModel, firebaseUser: user),
+                HomePage(),
           ));
 
       stdout.write('Log In Siccessfully');
@@ -164,7 +175,10 @@ class _LoginPageState extends State<LoginPage> {
                     ),
                   ),
                 ),
-                onPressed: login,
+                onPressed: (){
+                  login();
+                  log('--------------------------- ${sharedPrefs.firstName} ----------------------------------');
+                },
                 child: const Text(
                   'Login',
                   style: TextStyle(

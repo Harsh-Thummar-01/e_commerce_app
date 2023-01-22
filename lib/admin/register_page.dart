@@ -49,10 +49,10 @@ class _RegisterPageState extends State<RegisterPage> {
         comment: '',
         imageUrl: '',
       );
-      await FirebaseFirestore.instance.collection('users').doc(uid).set(newUser.toMap()).then((value) =>
+      await FirebaseFirestore.instance.collection('users').doc(uid).set(newUser.toMap());
       Navigator.push(context, MaterialPageRoute(builder: (context) {
         return Profile(userModel: newUser, firebaseUser: credential!.user!); 
-      },),),
+      },),
       );
     }
 

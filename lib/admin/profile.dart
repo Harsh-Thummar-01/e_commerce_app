@@ -4,6 +4,7 @@ import 'dart:io';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:e_commerce_app/Model/user_model.dart';
 import 'package:e_commerce_app/home_page.dart';
+import 'package:e_commerce_app/local_storage/sharedprefs.dart';
 import 'package:e_commerce_app/theme/color_theme.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:firebase_storage/firebase_storage.dart';
@@ -13,9 +14,9 @@ import 'package:image_cropper/image_cropper.dart';
 import 'package:image_picker/image_picker.dart';
 
 class Profile extends StatefulWidget {
-  final UserModel userModel;
-  final User firebaseUser;
-  const Profile({super.key, required this.userModel, required this.firebaseUser});
+  final UserModel? userModel;
+  final User? firebaseUser;
+  const Profile({super.key,this.userModel,this.firebaseUser});
 
   @override
   State<Profile> createState() => _ProfileState();
@@ -26,13 +27,13 @@ class _ProfileState extends State<Profile> {
   @override
   void initState() {
     super.initState();
-    firstcontrol.text = widget.userModel.firstName ?? '';
-    lastcontrol.text = widget.userModel.lastName ?? '';
-    commentcontrol.text = widget.userModel.comment ?? '';
+    firstcontrol.text = sharedPrefs.firstName ?? '';
+    lastcontrol.text = sharedPrefs.lastName ?? '';
+    commentcontrol.text = sharedPrefs.comment ?? '';
     // setState(() {
     //   imageFile = imageFile;
     // });
-    
+
 
   }
   final formKey = GlobalKey<FormState>();
@@ -63,29 +64,42 @@ class _ProfileState extends State<Profile> {
   }
 
   Future uploadData() async {
-    final uploadTask = FirebaseStorage.instance.ref('profilePicture/').child(widget.userModel.uid.toString()).putFile(imageFile!);
+    final uploadTask = FirebaseStorage.instance.ref('profilePicture/').child(sharedPrefs.uid.toString()).putFile(imageFile!);
 
-    final imageUrl = await uploadTask.snapshot.ref.getDownloadURL();
-    final firstName = firstcontrol.text.trim();
-    final lastName = lastcontrol.text.trim();
-    final comment= commentcontrol.text.trim();
+    final String imageUrl = await uploadTask.snapshot.ref.getDownloadURL();
+    final String firstName = firstcontrol.text.trim();
+    final String lastName = lastcontrol.text.trim();
+    final String comment= commentcontrol.text.trim();
+    //
+    widget.userModel!.firstName = firstName;
+    widget.userModel!.lastName = lastName;
+    widget.userModel!.comment = comment;
+    widget.userModel!.imageUrl = imageUrl;
 
-    widget.userModel.firstName = firstName;
-    widget.userModel.lastName = lastName;
-    widget.userModel.comment = comment;
-    widget.userModel.imageUrl = imageUrl;
 
-    if(widget.userModel.uid != null) {
-      await FirebaseFirestore.instance.collection('users').doc(widget.userModel.uid).update(widget.userModel.toMap());
+    setState(() {
+      sharedPrefs.uid = widget.userModel!.uid.toString();
+      sharedPrefs.email = widget.userModel!.email.toString();
+      sharedPrefs.userName = widget.userModel!.userName.toString();
+      sharedPrefs.firstName =firstName;
+      sharedPrefs.lastName = lastName;
+      sharedPrefs.comment = comment;
+      sharedPrefs.imageUrl = imageUrl;
+    });
+
+    if(widget.userModel!.uid!.isNotEmpty) {
+       FirebaseFirestore.instance.collection('users').doc(widget.userModel!.uid).update(widget.userModel!.toMap());
+
        Navigator.push(context,
-          MaterialPageRoute(builder: (context) => HomePage(userModel: widget.userModel, firebaseUser: widget.firebaseUser)
+          MaterialPageRoute(builder: (context) => HomePage()
             ,),);
     }
     else
       {
-        await FirebaseFirestore.instance.collection('users').doc(widget.userModel.uid).set(widget.userModel.toMap());
+         FirebaseFirestore.instance.collection('users').doc(sharedPrefs.uid).set(widget.userModel!.toMap());
+
          Navigator.push(context,
-            MaterialPageRoute(builder: (context) => HomePage(userModel: widget.userModel, firebaseUser: widget.firebaseUser)
+            MaterialPageRoute(builder: (context) => HomePage()
               ,),);
       }
 
