@@ -6,5 +6,4 @@ const Color mrpColor = Color(0x80808080);
 const Color iconColor = Color(0x60808080);
 
 const size = 0.67;
-const tendingSize = 0.61;
 

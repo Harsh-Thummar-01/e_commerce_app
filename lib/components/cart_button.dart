@@ -19,20 +19,27 @@ class _CartButtonState extends State<CartButton> {
     final cart = context.watch<CartProvider>();
     return cart.getQty(widget.product) > 0
         ? Container(
-      margin: EdgeInsets.symmetric(horizontal: 10),
-          padding: EdgeInsets.symmetric(horizontal: 10),
-          decoration: BoxDecoration(
-            borderRadius: BorderRadius.circular(15),
-            border: Border.all(color: textColor,width: 1.5)
-          ),
-          child: Row(
-            mainAxisAlignment: MainAxisAlignment.center,
+            margin: const EdgeInsets.symmetric(horizontal: 10),
+            padding: const EdgeInsets.symmetric(horizontal: 10),
+            decoration: BoxDecoration(
+                borderRadius: BorderRadius.circular(15),
+                border: Border.all(color: textColor, width: 1.5)),
+            child: Row(
+              mainAxisAlignment: MainAxisAlignment.center,
               children: [
                 InkWell(
                   onTap: () async {
                     cart.removeFromCart(widget.product);
                   },
-                  child: cart.getQty(widget.product) == 1 ? const Icon(Icons.delete,color: textColor,) : const Icon(Icons.remove,color: textColor,),
+                  child: cart.getQty(widget.product) == 1
+                      ? const Icon(
+                          Icons.delete,
+                          color: textColor,
+                        )
+                      : const Icon(
+                          Icons.remove,
+                          color: textColor,
+                        ),
                 ),
                 SizedBox(
                   width: 40,
@@ -55,7 +62,7 @@ class _CartButtonState extends State<CartButton> {
                 ),
               ],
             ),
-        )
+          )
         : InkWell(
             onTap: () async {
               context.read<CartProvider>().addToCart(widget.product);
