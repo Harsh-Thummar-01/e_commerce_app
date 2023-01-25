@@ -1,4 +1,6 @@
 import 'package:e_commerce_app/Model/product_shose_model.dart';
+import 'package:e_commerce_app/components/cart_button.dart';
+import 'package:e_commerce_app/components/floating_button.dart';
 import 'package:e_commerce_app/product_show_page.dart';
 import 'package:e_commerce_app/theme/color_theme.dart';
 import 'package:firebase_auth/firebase_auth.dart';
@@ -95,43 +97,17 @@ class _ShosePageState extends State<ShosePage> {
 
   @override
   Widget build(BuildContext context) {
-    return Scaffold(
-      appBar: AppBar(
-        automaticallyImplyLeading: false,
-        leading: IconButton(
-          onPressed: () {
-            Navigator.of(context).pop();
-          },
-          icon: const Icon(
-            Icons.arrow_back_ios_new,
-            color: textColor,
-          ),
-        ),
-        title: const Text(
-          "Shose",
-          style: TextStyle(
-            color: textColor,
-            fontSize: 25,
-            fontWeight: FontWeight.bold,
-          ),
-        ),
-        centerTitle: true,
-        backgroundColor: Colors.transparent,
-        elevation: 0.0,
-
-      ),
-      body: SingleChildScrollView(
-        scrollDirection: Axis.vertical,
-        child: GridView.count(
+    return SingleChildScrollView(
+      child: GridView.count(
           physics: const NeverScrollableScrollPhysics(),
-          childAspectRatio: 0.80,
+          childAspectRatio: size,
           crossAxisCount: 2,
           shrinkWrap: true,
           children: List.generate(
             products.length,
-            (index) => Card(
-              color: color,
-              shape: RoundedRectangleBorder(
+            (index) => Container(
+              decoration: BoxDecoration(
+                color: color,
                 borderRadius: BorderRadius.circular(12),
               ),
               margin: const EdgeInsets.symmetric(vertical: 8, horizontal: 10),
@@ -182,7 +158,7 @@ class _ShosePageState extends State<ShosePage> {
                               style: const TextStyle(
                                   fontWeight: FontWeight.bold, fontSize: 18),
                             ),
-
+    
                           ],
                         ),
                         const SizedBox(
@@ -197,13 +173,13 @@ class _ShosePageState extends State<ShosePage> {
                           ),
                         ),
                       ],
-                    )
+                    ),
+                    CartButton(product: products[index]),
                   ],
                 ),
               ),
             ),
           ),
-        ),
       ),
     );
   }

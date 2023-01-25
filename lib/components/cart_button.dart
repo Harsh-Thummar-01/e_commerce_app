@@ -18,51 +18,44 @@ class _CartButtonState extends State<CartButton> {
   Widget build(BuildContext context) {
     final cart = context.watch<CartProvider>();
     return cart.getQty(widget.product) > 0
-        ? Row(
-            children: [
-              InkWell(
-                onTap: () async {
-                  cart.removeFromCart(widget.product);
-                },
-                child: Container(
-                  height: 30,
-                  width: 30,
-                  decoration: BoxDecoration(
-                    borderRadius: BorderRadius.circular(10),
-                    color: iconColor,
-                  ),
-                  child: const Icon(Icons.remove),
+        ? Container(
+      margin: EdgeInsets.symmetric(horizontal: 10),
+          padding: EdgeInsets.symmetric(horizontal: 10),
+          decoration: BoxDecoration(
+            borderRadius: BorderRadius.circular(15),
+            border: Border.all(color: textColor,width: 1.5)
+          ),
+          child: Row(
+            mainAxisAlignment: MainAxisAlignment.center,
+              children: [
+                InkWell(
+                  onTap: () async {
+                    cart.removeFromCart(widget.product);
+                  },
+                  child: cart.getQty(widget.product) == 1 ? const Icon(Icons.delete,color: textColor,) : const Icon(Icons.remove,color: textColor,),
                 ),
-              ),
-              SizedBox(
-                width: 50,
-                height: 30,
-                child: Center(
-                    child: Text(
-                  cart.getQty(widget.product).toString(),
-                  style: const TextStyle(
-                      fontSize: 20, fontWeight: FontWeight.bold),
-                )),
-              ),
-              InkWell(
-                onTap: () async {
-                  cart.addToCart(widget.product);
-                },
-                child: Container(
+                SizedBox(
+                  width: 40,
                   height: 30,
-                  width: 30,
-                  decoration: BoxDecoration(
-                    borderRadius: BorderRadius.circular(10),
-                    color: textColor,
-                  ),
+                  child: Center(
+                      child: Text(
+                    cart.getQty(widget.product).toString(),
+                    style: const TextStyle(
+                        fontSize: 20, fontWeight: FontWeight.bold),
+                  )),
+                ),
+                InkWell(
+                  onTap: () async {
+                    cart.addToCart(widget.product);
+                  },
                   child: const Icon(
                     Icons.add,
-                    color: Colors.white,
+                    color: textColor,
                   ),
                 ),
-              ),
-            ],
-          )
+              ],
+            ),
+        )
         : InkWell(
             onTap: () async {
               context.read<CartProvider>().addToCart(widget.product);
@@ -77,7 +70,7 @@ class _CartButtonState extends State<CartButton> {
               child: const Text(
                 "Add to Cart",
                 style: TextStyle(
-                  fontSize: 20,
+                  fontSize: 17,
                   fontWeight: FontWeight.w500,
                   color: Colors.white,
                 ),

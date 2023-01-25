@@ -1,10 +1,13 @@
 // ignore_for_file: public_member_api_docs, strict_raw_type, avoid_dynamic_calls, inference_failure_on_instance_creation, lines_longer_than_80_chars, unnecessary_null_checks
 
 import 'package:e_commerce_app/Model/product_shose_model.dart';
+import 'package:e_commerce_app/components/cart_button.dart';
 import 'package:e_commerce_app/product_show_page.dart';
 import 'package:e_commerce_app/theme/color_theme.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
+
+import '../components/floating_button.dart';
 
 class JecKetPage extends StatefulWidget {
   const JecKetPage({super.key});
@@ -16,7 +19,7 @@ class JecKetPage extends StatefulWidget {
 class _JecKetPageState extends State<JecKetPage> {
   static List jecket = [
     {
-      'id': 1,
+      'id': 41,
       'image': 'assets/images/j1.png',
       'name': 'BLACK FANCY JECKET',
       'price': 599.00,
@@ -24,7 +27,7 @@ class _JecKetPageState extends State<JecKetPage> {
       'quantity':1
     },
     {
-      'id': 2,
+      'id': 42,
       'image': 'assets/images/j2.png',
       'name': 'BLACK LEGTHER JECKET',
       'price': 999.00,
@@ -32,7 +35,7 @@ class _JecKetPageState extends State<JecKetPage> {
       'quantity':1
     },
     {
-      'id': 3,
+      'id': 43,
       'image': 'assets/images/j3.png',
       'name': 'RED FANCY JECKET',
       'price': 1999.00,
@@ -40,7 +43,7 @@ class _JecKetPageState extends State<JecKetPage> {
 
     },
     {
-      'id': 4,
+      'id': 44,
       'image': 'assets/images/j4.png',
       'name': 'BROWN FANCY JECKET',
       'price': 2999.00,
@@ -48,7 +51,7 @@ class _JecKetPageState extends State<JecKetPage> {
 
     },
     {
-      'id': 5,
+      'id': 45,
       'image': 'assets/images/j5.png',
       'name': 'ORANGE FANCY JECKET',
       'price': 1999.00,
@@ -56,7 +59,7 @@ class _JecKetPageState extends State<JecKetPage> {
 
     },
     {
-      'id': 6,
+      'id': 46,
       'image': 'assets/images/j6.png',
       'name': 'MAROON FANCY JECKET',
       'price': 799.00,
@@ -83,42 +86,17 @@ class _JecKetPageState extends State<JecKetPage> {
   }
   @override
   Widget build(BuildContext context) {
-    return Scaffold(
-      appBar: AppBar(
-        automaticallyImplyLeading: false,
-        leading: IconButton(
-          onPressed: () {
-            Navigator.of(context).pop();
-          },
-          icon: Icon(
-            Icons.arrow_back_ios_new,
-            color: textColor,
-          ),
-        ),
-        title: Text(
-          'Jecket',
-          style: TextStyle(
-            color: textColor,
-            fontSize: 25,
-            fontWeight: FontWeight.bold,
-          ),
-        ),
-        centerTitle: true,
-        backgroundColor: Colors.transparent,
-        elevation: 0,
-
-      ),
-      body: SingleChildScrollView(
+    return SingleChildScrollView(
         child: GridView.count(
           physics: const NeverScrollableScrollPhysics(),
-          childAspectRatio: 0.76,
+          childAspectRatio: size,
           crossAxisCount: 2,
           shrinkWrap: true,
           children: List.generate(
             products.length,
-                (index) => Card(
-                  color: color,
-                  shape: RoundedRectangleBorder(
+                (index) => Container(
+                  decoration: BoxDecoration(
+                    color: color,
                     borderRadius: BorderRadius.circular(12),
                   ),
               margin: const EdgeInsets.symmetric(vertical: 8, horizontal: 10),
@@ -186,13 +164,14 @@ class _JecKetPageState extends State<JecKetPage> {
                         ),
                       ],
                     ),
+                    CartButton(product: products[index]),
                   ],
                 ),
               ),
             ),
           ),
         ),
-      ),
+      
     );
   }
 }

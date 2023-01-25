@@ -1,11 +1,7 @@
-
 import 'package:e_commerce_app/admin/login_page.dart';
-
 import 'package:e_commerce_app/home_page.dart';
-import 'package:e_commerce_app/local_storage/info_plus.dart';
 import 'package:e_commerce_app/local_storage/sharedprefs.dart';
 import 'package:e_commerce_app/proividers/cart_Provider.dart';
-
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter/material.dart';
@@ -15,7 +11,6 @@ void main() async {
   WidgetsFlutterBinding.ensureInitialized();
   await Firebase.initializeApp();
   await sharedPrefs.init();
-  await Info().init();
 
   runApp(MultiProvider(providers: [
     ChangeNotifierProvider(

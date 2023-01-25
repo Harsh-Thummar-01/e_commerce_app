@@ -1,6 +1,5 @@
 import 'package:e_commerce_app/Model/product_shose_model.dart';
 import 'package:flutter/cupertino.dart';
-import 'package:shared_preferences/shared_preferences.dart';
 
 class CartProvider with ChangeNotifier {
 
@@ -23,6 +22,7 @@ class CartProvider with ChangeNotifier {
         qty++;
       }
     }
+
     return qty;
   }
 
@@ -36,14 +36,14 @@ class CartProvider with ChangeNotifier {
     for (var element in products) {
       total += element.price;
     }
+
     return total;
   }
 
   double getSingleTotal(ProductModel product){
+
     return product.price * getQty(product);
   }
-
-
- }
+   }
 
 

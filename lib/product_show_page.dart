@@ -40,25 +40,7 @@ class _ProductShowPageState extends State<ProductShowPage> {
               ),
             ),
           ),
-          Positioned(
-            right: 15,
-            top: 25 + MediaQuery.of(context).padding.top,
-            child: IconButton(
-                onPressed: () {
-                  Navigator.push(
-                    context,
-                    MaterialPageRoute(
-                      builder: (context) {
-                        return CartScreen();
-                      },
-                    ),
-                  );
-                },
-                icon: const Icon(
-                  Icons.shopping_cart,
-                  color: textColor,
-                )),
-          ),
+
           Positioned(
             left: 25,
             top: 25 + MediaQuery.of(context).padding.top,
@@ -243,3 +225,38 @@ class _ProductShowPageState extends State<ProductShowPage> {
     );
   }
 }
+
+
+
+// InkWell(
+//   onTap: (){
+//     Navigator.push(
+//       context,
+//       MaterialPageRoute(
+//         builder: (context) {
+//           return const CartScreen();
+//         },
+//       ),
+//     );
+//   },
+//   child: Stack(
+//     children: [
+//       Positioned(
+//         right: 25,
+//         top: 30 + MediaQuery.of(context).padding.top,
+//         child: const ImageIcon(AssetImage("assets/images/carticon.png"),color: textColor),
+//       ),
+//       Positioned(
+//           right: 30,
+//           top: 30 + MediaQuery.of(context).padding.top,
+//           child: Text(
+//             context.watch<CartProvider>().products.length.toString(),
+//             style: const TextStyle(
+//               color: Colors.red,
+//               fontSize: 16,
+//               fontWeight: FontWeight.bold,
+//             ),
+//           )),
+//     ],
+//   ),
+// ),

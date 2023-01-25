@@ -1,9 +1,12 @@
 
 import 'package:e_commerce_app/Model/product_shose_model.dart';
+import 'package:e_commerce_app/components/cart_button.dart';
 import 'package:e_commerce_app/product_show_page.dart';
 import 'package:e_commerce_app/theme/color_theme.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
+
+import '../components/floating_button.dart';
 
 class BagPage extends StatefulWidget {
   const BagPage({super.key});
@@ -15,7 +18,7 @@ class BagPage extends StatefulWidget {
 class _BagPageState extends State<BagPage> {
   static List<dynamic> bag = [
     {
-      'id': 1,
+      'id': 21,
       'image': 'assets/images/3.png',
       'name': 'RED FANCY BAG',
       'price': 999.00,
@@ -23,7 +26,7 @@ class _BagPageState extends State<BagPage> {
 
     },
     {
-      'id': 2,
+      'id': 22,
       'image': 'assets/images/bag2.png',
       'name': 'YELLOW FANCY BAG',
       'price': 1999.00,
@@ -31,7 +34,7 @@ class _BagPageState extends State<BagPage> {
 
     },
     {
-      'id': 3,
+      'id': 23,
       'image': 'assets/images/bag3.png',
       'name': 'FANCY NEW BAG',
       'price': 2999.00,
@@ -39,7 +42,7 @@ class _BagPageState extends State<BagPage> {
 
     },
     {
-      'id': 4,
+      'id': 24,
       'image': 'assets/images/bag4.png',
       'name': 'ORANGE FANCY BAG',
       'price': 1999.00,
@@ -47,7 +50,7 @@ class _BagPageState extends State<BagPage> {
 
     },
     {
-      'id': 5,
+      'id': 25,
       'image': 'assets/images/bag5.png',
       'name': 'GOLD CHAIN BAG',
       'price': 3999.00,
@@ -55,7 +58,7 @@ class _BagPageState extends State<BagPage> {
 
     },
     {
-      'id': 6,
+      'id': 26,
       'image': 'assets/images/bag6.png',
       'name': 'PLAN BLACK BAG',
       'price': 799.00,
@@ -79,116 +82,91 @@ class _BagPageState extends State<BagPage> {
 
   @override
   Widget build(BuildContext context) {
-    return Scaffold(
-      appBar: AppBar(
-        automaticallyImplyLeading: false,
-        leading: IconButton(
-          onPressed: () {
-            Navigator.of(context).pop();
-          },
-          icon:const Icon(
-            Icons.arrow_back_ios_new,
-            color: textColor,
-          ),
-        ),
-        title: const Text(
-          'Bag',
-          style: TextStyle(
-            color: textColor,
-            fontSize: 25,
-            fontWeight: FontWeight.bold,
-          ),
-        ),
-        centerTitle: true,
-        backgroundColor: Colors.transparent,
-        elevation: 0,
+    return SingleChildScrollView(
+       child:GridView.count(
+         physics: const NeverScrollableScrollPhysics(),
+         childAspectRatio: size,
+         crossAxisCount: 2,
+         shrinkWrap: true,
+         children: List.generate(
+           products.length,
+               (index) => Container(
 
-      ),
-
-      body: SingleChildScrollView(
-        child: GridView.count(
-          physics: const NeverScrollableScrollPhysics(),
-          childAspectRatio: 0.80,
-          crossAxisCount: 2,
-          shrinkWrap: true,
-          children: List.generate(
-            products.length,
-                (index) => Card(
+                decoration: BoxDecoration(
                   color: color,
-                  shape: RoundedRectangleBorder(
-                    borderRadius: BorderRadius.circular(12),
-                  ),
-              margin: const EdgeInsets.symmetric(vertical: 8, horizontal: 8),
-              child: Padding(
-                padding: const EdgeInsets.symmetric(vertical: 8),
-                child: Column(
-                  children: [
-                    InkWell(
-                      onTap: () {
-                        Navigator.push(
-                            context,
-                            MaterialPageRoute(
-                              builder: (context) => ProductShowPage(
-                                productModel: products[index],
-                              ),
-                            ),);
-                      },
-                      child: Image.asset(
-                        products[index].imageUrl!,
-                        width: 100,
-                        height: 100,
-                      ),
-                    ),
-                    Column(
-                      children: [
-                        const SizedBox(
-                          height: 8,
-                        ),
-                        Text(
-                          products[index].name,
-                          style: const TextStyle(fontSize: 13),
-                        ),
-                        const SizedBox(
-                          height: 8,
-                        ),
-                        Row(
-                          mainAxisAlignment: MainAxisAlignment.center,
-                          children: [
-                            const Text(
-                              "₹",
-                              style: TextStyle(
-                                  fontSize: 19,
-                                  fontWeight: FontWeight.bold,
-                                  color: textColor),
-                            ),
-                            Text(
-                              products[index].price.toString(),
-                              style: const TextStyle(
-                                  fontWeight: FontWeight.bold, fontSize: 18),
-                            ),
+                   borderRadius: BorderRadius.circular(12),
+                 ),
+             margin: const EdgeInsets.symmetric(vertical: 8, horizontal: 8),
+             child: Padding(
+               padding: const EdgeInsets.symmetric(vertical: 8),
+               child: Column(
+                 children: [
+                   InkWell(
+                     onTap: () {
+                       Navigator.push(
+                           context,
+                           MaterialPageRoute(
+                             builder: (context) => ProductShowPage(
+                               productModel: products[index],
+                             ),
+                           ),);
+                     },
+                     child: Image.asset(
+                       products[index].imageUrl!,
+                       width: 100,
+                       height: 100,
+                     ),
+                   ),
+                   Column(
+                     children: [
+                       const SizedBox(
+                         height: 8,
+                       ),
+                       Text(
+                         products[index].name,
+                         style: const TextStyle(fontSize: 13),
+                       ),
+                       const SizedBox(
+                         height: 8,
+                       ),
+                       Row(
+                         mainAxisAlignment: MainAxisAlignment.center,
+                         children: [
+                           const Text(
+                             "₹",
+                             style: TextStyle(
+                                 fontSize: 19,
+                                 fontWeight: FontWeight.bold,
+                                 color: textColor),
+                           ),
+                           Text(
+                             products[index].price.toString(),
+                             style: const TextStyle(
+                                 fontWeight: FontWeight.bold, fontSize: 18),
+                           ),
 
-                          ],
-                        ),
-                        const SizedBox(
-                          height: 5,
-                        ),
-                        Text(
-                          products[index].normalPrice.toString(),
-                          style: const TextStyle(
-                            fontSize: 14,
-                            color: mrpColor,
-                            decoration: TextDecoration.lineThrough,
-                          ),
-                        ),
-                      ],
-                    ),
-                  ],
-                ),
-              ),
-            ),
-          ),
-        ),
-      ),
+                         ],
+                       ),
+                       const SizedBox(
+                         height: 5,
+                       ),
+                       Text(
+                         products[index].normalPrice.toString(),
+                         style: const TextStyle(
+                           fontSize: 14,
+                           color: mrpColor,
+                           decoration: TextDecoration.lineThrough,
+                         ),
+                       ),
+                     ],
+                   ),
+                   CartButton(product: products[index]),
+                 ],
+               ),
+             ),
+           ),
+         ),
+       ),
     );
   }
 }
