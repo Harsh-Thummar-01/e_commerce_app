@@ -12,7 +12,7 @@ class ProductModel {
   int id;
   String? imageUrl;
   String name;
-  double price;
+  int price;
   String normalPrice;
   int quantity;
 

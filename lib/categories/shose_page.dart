@@ -1,3 +1,4 @@
+import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:e_commerce_app/Model/product_shose_model.dart';
 import 'package:e_commerce_app/components/cart_button.dart';
 import 'package:e_commerce_app/components/floating_button.dart';
@@ -16,171 +17,113 @@ class ShosePage extends StatefulWidget {
 }
 
 class _ShosePageState extends State<ShosePage> {
-  static List shoses = [
-    {
-      "id": 1,
-      "image": "assets/images/1.png",
-      "name": "NIKE AIR MAX 200",
-      "price": 2599.00,
-      "normalPrice": "4599.00",
-
-    },
-    {
-      "id": 2,
-      "image": "assets/images/shose1.png",
-      "name": "CASUAL Pradeep",
-      "price": 5999.00,
-      "normalPrice": "9599.00",
-
-    },
-    {
-      "id": 3,
-      "image": "assets/images/shose2.png",
-      "name": "CASUAL ORANGE",
-      "price": 999.00,
-      "normalPrice": "4599.00",
-
-    },
-    {
-      "id": 4,
-      "image": "assets/images/shose3.png",
-      "name": "SPORT SHOSE",
-      "price": 1999.00,
-      "normalPrice": "4599.00",
-
-    },
-    {
-      "id": 5,
-      "image": "assets/images/shose4.png",
-      "name": "PUMA",
-      "price": 3999.00,
-      "normalPrice": "4599.00",
-
-    },
-    {
-      "id": 6,
-      "image": "assets/images/shose5.png",
-      "name": "PLAN BLUE",
-      "price": 799.00,
-      "normalPrice": "4599.00",
-
-    },
-  ];
-  List<ProductModel> products = List.generate(
-    shoses.length,
-    (index) => ProductModel(
-      id: shoses[index]['id'],
-      imageUrl: "${shoses[index]['image']}",
-      name: "${shoses[index]['name']}",
-      price: shoses[index]['price'],
-      normalPrice: "${shoses[index]['normalPrice']}",
-        quantity: 1
-    ),
-  );
-  final uid = FirebaseAuth.instance.currentUser!.uid;
-
-  // @override
-  // Widget build(BuildContext context) {
-
-  //   throw UnimplementedError();
-  // }
-
-  // List selectedData = [];
-
-  // void favoriteData(int index) async {
-  //   ProductModel productModel = ProductModel(
-  //     id: products[index].id,
-  //     imageUrl: products[index].imageUrl,
-  //     name: products[index].name,
-  //     price: products[index].price,
-  //   );
-
+  late List<ProductModel> productModel;
   @override
   Widget build(BuildContext context) {
-    return SingleChildScrollView(
-      child: GridView.count(
-          physics: const NeverScrollableScrollPhysics(),
-          childAspectRatio: size,
-          crossAxisCount: 2,
-          shrinkWrap: true,
-          children: List.generate(
-            products.length,
-            (index) => Container(
-              decoration: BoxDecoration(
-                color: color,
-                borderRadius: BorderRadius.circular(12),
-              ),
-              margin: const EdgeInsets.symmetric(vertical: 8, horizontal: 10),
-              child: Padding(
-                padding: const EdgeInsets.symmetric(vertical: 8.0),
-                child: Column(
-                  children: [
-                    InkWell(
-                      onTap: () {
-                        Navigator.push(
-                            context,
-                            MaterialPageRoute(
-                              builder: (context) => ProductShowPage(
-                                productModel: products[index],
-                              ),
-                            ));
-                      },
-                      child: Image.asset(
-                        products[index].imageUrl!,
-                        width: 100,
-                        height: 100,
-                      ),
-                    ),
-                    Column(
-                      children: [
-                        const SizedBox(
-                          height: 8,
-                        ),
-                        Text(
-                          products[index].name,
-                          style: const TextStyle(fontSize: 13),
-                        ),
-                        const SizedBox(
-                          height: 8,
-                        ),
-                        Row(
-                          mainAxisAlignment: MainAxisAlignment.center,
-                          children: [
-                            const Text(
-                              "₹",
-                              style: TextStyle(
-                                  fontSize: 19,
-                                  fontWeight: FontWeight.bold,
-                                  color: textColor),
-                            ),
-                            Text(
-                              products[index].price.toString(),
-                              style: const TextStyle(
-                                  fontWeight: FontWeight.bold, fontSize: 18),
-                            ),
-    
-                          ],
-                        ),
-                        const SizedBox(
-                          height: 5,
-                        ),
-                        Text(
-                          products[index].normalPrice.toString(),
-                          style: const TextStyle(
-                            fontSize: 14,
-                            color: mrpColor,
-                            decoration: TextDecoration.lineThrough,
-                          ),
-                        ),
-                      ],
-                    ),
-                    CartButton(product: products[index]),
-                  ],
-                ),
-              ),
+    return StreamBuilder<QuerySnapshot<Map<String, dynamic>>>(
+      stream: FirebaseFirestore.instance.collection("shose").snapshots(),
+      builder: (BuildContext context, snapshot) {
+        if (snapshot.connectionState == ConnectionState.waiting) {
+          return const Center(
+            child: CircularProgressIndicator(color: textColor),
+          );
+        }
+
+        return SingleChildScrollView(
+          child: GridView.builder(
+            physics: const NeverScrollableScrollPhysics(),
+            gridDelegate: const SliverGridDelegateWithFixedCrossAxisCount(
+              childAspectRatio: size,
+              crossAxisCount: 2,
             ),
+            shrinkWrap: true,
+            itemCount: snapshot.data!.docs.length,
+            itemBuilder: (context, index) {
+              DocumentSnapshot product = snapshot.data!.docs[index];
+              ProductModel productModel = ProductModel(
+                  id: product['id'],
+                  imageUrl: product['image'],
+                  name: product['name'],
+                  price: product['price'],
+                  normalPrice: product['normalPrice'],
+                  quantity: 1);
+              return Container(
+                decoration: BoxDecoration(
+                  color: color,
+                  borderRadius: BorderRadius.circular(12),
+                ),
+                margin: const EdgeInsets.symmetric(vertical: 8, horizontal: 10),
+                child: Padding(
+                  padding: const EdgeInsets.symmetric(vertical: 8.0),
+                  child: Column(
+                    children: [
+                      InkWell(
+                        onTap: () {
+                          Navigator.push(
+                              context,
+                              MaterialPageRoute(
+                                builder: (context) => ProductShowPage(
+                                  productModel: productModel,
+                                ),
+                              ));
+                        },
+                        child: Image.asset(
+                          productModel.imageUrl.toString(),
+                          width: 100,
+                          height: 100,
+                        ),
+                      ),
+                      Column(
+                        children: [
+                          const SizedBox(
+                            height: 8,
+                          ),
+                          Text(
+                            productModel.name,
+                            style: const TextStyle(fontSize: 13),
+                          ),
+                          const SizedBox(
+                            height: 8,
+                          ),
+                          Row(
+                            mainAxisAlignment: MainAxisAlignment.center,
+                            children: [
+                              const Text(
+                                "₹",
+                                style: TextStyle(
+                                    fontSize: 19,
+                                    fontWeight: FontWeight.bold,
+                                    color: textColor),
+                              ),
+                              Text(
+                                productModel.price.toString(),
+                                style: const TextStyle(
+                                    fontWeight: FontWeight.bold, fontSize: 18),
+                              ),
+                            ],
+                          ),
+                          const SizedBox(
+                            height: 5,
+                          ),
+                          Text(
+                            productModel.normalPrice.toString(),
+                            style: const TextStyle(
+                              fontSize: 14,
+                              color: mrpColor,
+                              decoration: TextDecoration.lineThrough,
+                            ),
+                          ),
+                        ],
+                      ),
+                      CartButton(product: productModel),
+                    ],
+                  ),
+                ),
+              );
+            },
           ),
-      ),
+        );
+      },
     );
   }
 }

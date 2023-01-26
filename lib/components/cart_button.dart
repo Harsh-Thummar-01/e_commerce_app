@@ -32,9 +32,59 @@ class _CartButtonState extends State<CartButton> {
                     cart.removeFromCart(widget.product);
                   },
                   child: cart.getQty(widget.product) == 1
-                      ? const Icon(
-                          Icons.delete,
-                          color: textColor,
+                      ? InkWell(
+                          onTap: () {
+                            showDialog(
+                              context: context,
+                              builder: (context) => AlertDialog(
+                                title: const Text(
+                                  "E=Shop",
+                                  style: TextStyle(
+                                      fontSize: 25,
+                                      color: textColor,
+                                      fontWeight: FontWeight.bold),
+                                ),
+                                content: const Text(
+                                  "Are you Sure delete Quantity",
+                                  style: TextStyle(
+                                      fontSize: 17, color: Colors.grey),
+                                ),
+                                actions: <Widget>[
+                                  TextButton(
+                                    onPressed: () {
+                                      Navigator.pop(context);
+                                      cart.removeFromCart(widget.product);
+                                    },
+                                    child: const Text(
+                                      "yes",
+                                      style: TextStyle(
+                                        fontSize: 20,
+                                        fontWeight: FontWeight.bold,
+                                        color: textColor,
+                                      ),
+                                    ),
+                                  ),
+                                  TextButton(
+                                    onPressed: () {
+                                      Navigator.pop(context);
+                                    },
+                                    child: const Text(
+                                      "no",
+                                      style: TextStyle(
+                                        fontSize: 20,
+                                        fontWeight: FontWeight.bold,
+                                        color: textColor,
+                                      ),
+                                    ),
+                                  ),
+                                ],
+                              ),
+                            );
+                          },
+                          child: const Icon(
+                            Icons.delete,
+                            color: textColor,
+                          ),
                         )
                       : const Icon(
                           Icons.remove,

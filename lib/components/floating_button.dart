@@ -20,17 +20,20 @@ class _FloatingButtonState extends State<FloatingButton> {
       backgroundColor: textColor,
       onPressed: () {
         Navigator.push(
-            context,
-            MaterialPageRoute(
-              builder: (context) => const CartScreen(),
-            ));
+          context,
+          MaterialPageRoute(
+            builder: (context) => const CartScreen(),
+          ),
+        );
       },
       child: Badge(
-        position: BadgePosition.topEnd(top: -14,end: -4),
-        badgeContent: Text(context.watch<CartProvider>().products.length.toString(),
-          style: const TextStyle(
-              color: Colors.white
-          ),),
+        showBadge:
+            (context.watch<CartProvider>().products.isEmpty) ? false : true,
+        position: BadgePosition.topEnd(top: -14, end: -4),
+        badgeContent: Text(
+          context.watch<CartProvider>().products.length.toString(),
+          style: const TextStyle(color: Colors.white),
+        ),
         animationType: BadgeAnimationType.fade,
         child: const Icon(
           Icons.shopping_cart,

@@ -40,7 +40,7 @@ class CartProvider with ChangeNotifier {
     return total;
   }
 
-  double getSingleTotal(ProductModel product){
+  int getSingleTotal(ProductModel product){
 
     return product.price * getQty(product);
   }

@@ -1,3 +1,5 @@
+import 'package:badges/badges.dart';
+import 'package:e_commerce_app/Model/user_model.dart';
 import 'package:e_commerce_app/admin/login_page.dart';
 import 'package:e_commerce_app/admin/profile.dart';
 import 'package:e_commerce_app/cart_screen.dart';
@@ -7,13 +9,16 @@ import 'package:e_commerce_app/categories/mobile_page.dart';
 import 'package:e_commerce_app/categories/shose_page.dart';
 import 'package:e_commerce_app/categories/watch_page.dart';
 import 'package:e_commerce_app/local_storage/sharedprefs.dart';
+import 'package:e_commerce_app/proividers/cart_Provider.dart';
 import 'package:e_commerce_app/theme/color_theme.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
+import 'package:provider/provider.dart';
 
 import 'components/floating_button.dart';
 
 class HomePage extends StatefulWidget {
+
   const HomePage({
     super.key,
   });
@@ -23,14 +28,6 @@ class HomePage extends StatefulWidget {
 }
 
 class _HomePageState extends State<HomePage> {
-// getFavoriteData() async {
-
-//   QuerySnapshot snapshot  = await FirebaseFirestore.instance.collection("users").doc(uid).collection("favoritedata").get();
-
-//   ProductModel productModel = ProductModel.fromMap(snapshot.docs as Map<String, dynamic>);
-
-//  }
-
   @override
   Widget build(BuildContext context) {
     return DefaultTabController(
@@ -80,7 +77,7 @@ class _HomePageState extends State<HomePage> {
                     context,
                     MaterialPageRoute(
                       builder: (context) {
-                        return const HomePage();
+                        return HomePage();
                       },
                     ),
                   );
@@ -124,12 +121,20 @@ class _HomePageState extends State<HomePage> {
                   padding:
                       const EdgeInsets.symmetric(vertical: 8.0, horizontal: 15),
                   child: Row(
-                    children: const [
-                      Icon(Icons.shopping_cart, color: textColor),
-                      SizedBox(
+                    children: [
+                      Badge(
+                        showBadge: (context.watch<CartProvider>().products.isEmpty) ? false : true,
+                        badgeContent: Text(context.watch<CartProvider>().products.length.toString()),
+                        position: BadgePosition.topEnd(top: -12,end: -8),
+                        child: const Icon(
+                          Icons.shopping_cart,
+                          color: textColor,
+                        ),
+                      ),
+                      const SizedBox(
                         width: 10,
                       ),
-                      Text(
+                      const Text(
                         "Shopping cart",
                         style: TextStyle(
                           fontSize: 17,
@@ -227,8 +232,8 @@ class _HomePageState extends State<HomePage> {
               onPressed: () => Scaffold.of(context).openDrawer(),
             );
           }),
-          title: Text(
-            "${sharedPrefs.firstName} ${sharedPrefs.lastName}",
+          title: const Text(
+            "E-Shop",
             style: const TextStyle(
                 fontSize: 23, color: textColor, fontWeight: FontWeight.bold),
           ),

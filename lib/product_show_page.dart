@@ -40,7 +40,55 @@ class _ProductShowPageState extends State<ProductShowPage> {
               ),
             ),
           ),
-
+          Positioned(
+            right: 25,
+            top: 25 + MediaQuery.of(context).padding.top,
+            child: InkWell(
+              onTap: () {
+                Navigator.push(
+                  context,
+                  MaterialPageRoute(
+                    builder: (context) => const CartScreen(),
+                  ),
+                );
+              },
+              child: ClipOval(
+                child: Container(
+                  height: 42,
+                  width: 41,
+                  decoration: BoxDecoration(
+                    color: Colors.white,
+                    boxShadow: [
+                      BoxShadow(
+                        color: Colors.black.withOpacity(.25),
+                        offset: const Offset(0, 4),
+                        blurRadius: 8,
+                      ),
+                    ],
+                  ),
+                  child: Center(
+                    child: Badge(
+                      showBadge:
+                          (context.watch<CartProvider>().products.isEmpty)
+                              ? false
+                              : true,
+                      badgeContent: Text(context
+                          .watch<CartProvider>()
+                          .products
+                          .length
+                          .toString()),
+                      position: BadgePosition.topEnd(top: -12, end: -4),
+                      child: const Icon(
+                        Icons.shopping_cart,
+                        color: textColor,
+                        size: 20,
+                      ),
+                    ),
+                  ),
+                ),
+              ),
+            ),
+          ),
           Positioned(
             left: 25,
             top: 25 + MediaQuery.of(context).padding.top,

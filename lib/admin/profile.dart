@@ -76,17 +76,6 @@ class _ProfileState extends State<Profile> {
     widget.userModel!.comment = comment;
     widget.userModel!.imageUrl = imageUrl;
 
-
-    setState(() {
-      sharedPrefs.uid = widget.userModel!.uid.toString();
-      sharedPrefs.email = widget.userModel!.email.toString();
-      sharedPrefs.userName = widget.userModel!.userName.toString();
-      sharedPrefs.firstName =firstName;
-      sharedPrefs.lastName = lastName;
-      sharedPrefs.comment = comment;
-      sharedPrefs.imageUrl = imageUrl;
-    });
-
     if(widget.userModel!.uid!.isNotEmpty) {
        FirebaseFirestore.instance.collection('users').doc(widget.userModel!.uid).update(widget.userModel!.toMap());
 
