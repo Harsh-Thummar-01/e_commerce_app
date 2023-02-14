@@ -1,3 +1,4 @@
+import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:e_commerce_app/Model/product_shose_model.dart';
 import 'package:e_commerce_app/proividers/cart_Provider.dart';
 import 'package:e_commerce_app/theme/color_theme.dart';
@@ -30,6 +31,14 @@ class _CartButtonState extends State<CartButton> {
                 InkWell(
                   onTap: () async {
                     cart.removeFromCart(widget.product);
+                    await FirebaseFirestore.instance.collection("orders").doc(widget.product.id.toString()).update({
+                      "id":widget.product.id,
+                      "imageUrl":widget.product.imageUrl,
+                      "name":widget.product.name,
+                      "price":widget.product.price,
+                      "normalPrice":widget.product.normalPrice,
+                      "quantity":cart.getQty(widget.product),
+                    });
                   },
                   child: cart.getQty(widget.product) == 1
                       ? InkWell(
@@ -51,9 +60,10 @@ class _CartButtonState extends State<CartButton> {
                                 ),
                                 actions: <Widget>[
                                   TextButton(
-                                    onPressed: () {
+                                    onPressed: () async {
                                       Navigator.pop(context);
                                       cart.removeFromCart(widget.product);
+                                      await FirebaseFirestore.instance.collection("orders").doc(widget.product.id.toString()).delete();
                                     },
                                     child: const Text(
                                       "yes",
@@ -104,6 +114,14 @@ class _CartButtonState extends State<CartButton> {
                 InkWell(
                   onTap: () async {
                     cart.addToCart(widget.product);
+                    await FirebaseFirestore.instance.collection("orders").doc(widget.product.id.toString()).update({
+                      "id":widget.product.id,
+                      "imageUrl":widget.product.imageUrl,
+                      "name":widget.product.name,
+                      "price":widget.product.price,
+                      "normalPrice":widget.product.normalPrice,
+                      "quantity":cart.getQty(widget.product),
+                    });
                   },
                   child: const Icon(
                     Icons.add,
@@ -116,6 +134,14 @@ class _CartButtonState extends State<CartButton> {
         : InkWell(
             onTap: () async {
               context.read<CartProvider>().addToCart(widget.product);
+              await FirebaseFirestore.instance.collection("orders").doc(widget.product.id.toString()).set({
+                "id":widget.product.id,
+                "imageUrl":widget.product.imageUrl,
+                "name":widget.product.name,
+                "price":widget.product.price,
+                "normalPrice":widget.product.normalPrice,
+                "quantity":widget.product.quantity,
+              });
             },
             borderRadius: BorderRadius.circular(10),
             child: Container(

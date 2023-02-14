@@ -1,3 +1,4 @@
+import 'dart:convert';
 
 class ProductModel {
   ProductModel({
@@ -5,7 +6,7 @@ class ProductModel {
     this.imageUrl,
     required this.name,
     required this.price,
-    required this.normalPrice,
+    this.normalPrice,
     required this.quantity,
   });
 
@@ -13,26 +14,38 @@ class ProductModel {
   String? imageUrl;
   String name;
   int price;
-  String normalPrice;
+  String? normalPrice;
   int quantity;
 
   factory ProductModel.fromMap(Map<String, dynamic> json) => ProductModel(
-    id: json["id"],
-    imageUrl: json["imageUrl"],
-    name: json["name"],
-    price: json["price"],
-    normalPrice: json["normaPrice"],
-    quantity: json["quantity"],
-  );
+        id: json["id"],
+        imageUrl: json["imageUrl"],
+        name: json["name"],
+        price: json["price"],
+        normalPrice: json["normaPrice"],
+        quantity: json["quantity"],
+      );
 
-  Map<String, dynamic> toMap() => {
-    "id": id,
-    "imageUrl": imageUrl,
-    "name": name,
-    "price": price,
-    "normaPrice": normalPrice,
-    "quantity": quantity,
-  };
+  static Map<String, dynamic> toMap(ProductModel productModel) => {
+        "id": productModel.id,
+        "imageUrl": productModel.imageUrl,
+        "name": productModel.name,
+        "price": productModel.price,
+        "normaPrice": productModel.normalPrice,
+        "quantity": productModel.quantity,
+      };
+
+  // static String encode(List<ProductModel> productModel) => json.encode(
+  //       productModel
+  //           .map<Map<String, dynamic>>(
+  //               (ProductModels) => ProductModel.toMap(ProductModels))
+  //           .toList(),
+  //     );
+
+  // static List<ProductModel> decode(String productModel) =>
+  //     (json.decode(productModel) as List<dynamic>)
+  //         .map<ProductModel>((item) => ProductModel.fromMap(item))
+  //         .toList();
 }
 
 

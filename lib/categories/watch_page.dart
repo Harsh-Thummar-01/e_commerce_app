@@ -5,8 +5,10 @@ import 'package:e_commerce_app/Model/product_shose_model.dart';
 import 'package:e_commerce_app/components/cart_button.dart';
 import 'package:e_commerce_app/components/floating_button.dart';
 import 'package:e_commerce_app/product_show_page.dart';
+import 'package:e_commerce_app/proividers/favourite_Provider.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
+import 'package:provider/provider.dart';
 
 import '../theme/color_theme.dart';
 
@@ -57,6 +59,37 @@ class _WatchPageState extends State<WatchPage> {
                   padding: const EdgeInsets.symmetric(vertical: 8.0),
                   child: Column(
                     children: [
+                      Row(
+                        mainAxisAlignment: MainAxisAlignment.end,
+                        children: [
+                          InkWell(
+                            onTap: () {
+                              if (context
+                                  .read<FavouriteProvider>()
+                                  .isFavProduct(productModel)) {
+                                context
+                                    .read<FavouriteProvider>()
+                                    .remToFavProduct(productModel);
+                              } else {
+                                context
+                                    .read<FavouriteProvider>()
+                                    .addToFavProduct(productModel);
+                              }
+                            },
+                            child: context
+                                    .watch<FavouriteProvider>()
+                                    .isFavProduct(productModel)
+                                ? const Icon(
+                                    Icons.favorite,
+                                    color: textColor,
+                                  )
+                                : const Icon(
+                                    Icons.favorite_border,
+                                    color: textColor,
+                                  ),
+                          ),
+                        ],
+                      ),
                       InkWell(
                         onTap: () {
                           Navigator.push(

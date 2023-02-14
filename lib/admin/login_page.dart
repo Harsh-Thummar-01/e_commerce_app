@@ -23,7 +23,7 @@ class _LoginPageState extends State<LoginPage> {
   TextEditingController emailControl = TextEditingController();
   TextEditingController passwordControl = TextEditingController();
 
-   login() async {
+  login() async {
     String email = emailControl.text.trim();
     String password = passwordControl.text.trim();
 
@@ -43,25 +43,15 @@ class _LoginPageState extends State<LoginPage> {
           await FirebaseFirestore.instance.collection('users').doc(uid).get();
       final userModel =
           UserModel.fromMap(userData.data() as Map<String, dynamic>);
-      setState(() {
-        sharedPrefs.uid = userModel.uid.toString();
-        sharedPrefs.email = userModel.email.toString();
-        sharedPrefs.userName = userModel.userName.toString();
-        sharedPrefs.firstName = userModel.firstName.toString();
-        sharedPrefs.lastName = userModel.lastName.toString();
-        sharedPrefs.comment = userModel.comment.toString();
-        sharedPrefs.imageUrl = userModel.imageUrl.toString();
-      });
-       Navigator.push(
+      Navigator.push(
           context,
           MaterialPageRoute(
             builder: (context) =>
-                HomePage(),
+                HomePage(userModel: userModel, firebaseUser: user),
           ));
 
       stdout.write('Log In Siccessfully');
-    }
-    else{
+    } else {
       stdout.write("Log in failed");
     }
   }
@@ -132,7 +122,7 @@ class _LoginPageState extends State<LoginPage> {
                         decoration: InputDecoration(
                           fillColor: color,
                           filled: true,
-                          prefixIcon:const Icon(
+                          prefixIcon: const Icon(
                             Icons.password,
                             color: textColor,
                           ),
@@ -174,7 +164,7 @@ class _LoginPageState extends State<LoginPage> {
                     ),
                   ),
                 ),
-                onPressed: (){
+                onPressed: () {
                   login();
                   log('--------------------------- ${sharedPrefs.firstName} ----------------------------------');
                 },
@@ -202,7 +192,7 @@ class _LoginPageState extends State<LoginPage> {
                     },
                     child: const Text(
                       'Register',
-                      style: TextStyle(color:textColor),
+                      style: TextStyle(color: textColor),
                     ),
                   ),
                 ],

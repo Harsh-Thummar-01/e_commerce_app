@@ -12,12 +12,12 @@ class SharedPrefs {
 
   static SharedPreferences? _sharedPreferences;
 
-   init() async {
+  init() async {
     _sharedPreferences ??= await SharedPreferences.getInstance();
   }
 
-  logOut(){
-     _sharedPreferences?.clear();
+  logOut() {
+    _sharedPreferences?.clear();
   }
 
   set uid(String value) => _sharedPreferences!.setString("uid", value);
@@ -28,15 +28,18 @@ class SharedPrefs {
 
   String get email => _sharedPreferences!.getString("email") ?? '';
 
-  set userName(String value) => _sharedPreferences!.setString("userName", value);
+  set userName(String value) =>
+      _sharedPreferences!.setString("userName", value);
 
   String get userName => _sharedPreferences!.getString("userName") ?? '';
 
-  set firstName(String value) => _sharedPreferences!.setString("firstName", value);
+  set firstName(String value) =>
+      _sharedPreferences!.setString("firstName", value);
 
   String get firstName => _sharedPreferences!.getString("firstName") ?? '';
 
-  set lastName(String value) => _sharedPreferences!.setString("lastName", value);
+  set lastName(String value) =>
+      _sharedPreferences!.setString("lastName", value);
 
   String get lastName => _sharedPreferences!.getString("lastName") ?? '';
 
@@ -44,11 +47,16 @@ class SharedPrefs {
 
   String get comment => _sharedPreferences!.getString("comment") ?? '';
 
-  set imageUrl(String value) => _sharedPreferences!.setString("imageUrl", value);
+  set imageUrl(String value) =>
+      _sharedPreferences!.setString("imageUrl", value);
 
   String get imageUrl => _sharedPreferences!.getString("imageUrl") ?? '';
 
+  // set favoriteProduct(String value) =>
+  //     _sharedPreferences!.setString("favProduct", value);
+
+  // String get favoriteProduct =>
+  //     _sharedPreferences!.getString("favProduct") ?? '';
 }
 
 final sharedPrefs = SharedPrefs();
-

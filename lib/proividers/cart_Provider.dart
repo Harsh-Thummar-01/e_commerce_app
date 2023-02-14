@@ -1,5 +1,8 @@
+import 'dart:convert';
+
 import 'package:e_commerce_app/Model/product_shose_model.dart';
 import 'package:flutter/cupertino.dart';
+import 'package:shared_preferences/shared_preferences.dart';
 
 class CartProvider with ChangeNotifier {
 
@@ -41,9 +44,10 @@ class CartProvider with ChangeNotifier {
   }
 
   int getSingleTotal(ProductModel product){
-
-    return product.price * getQty(product);
+    int singleTotal = product.price * getQty(product);
+    return singleTotal;
   }
+
    }
 
 

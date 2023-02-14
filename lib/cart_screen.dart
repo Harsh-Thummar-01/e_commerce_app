@@ -1,3 +1,4 @@
+
 import 'package:e_commerce_app/proividers/cart_Provider.dart';
 import 'package:e_commerce_app/theme/color_theme.dart';
 import 'package:firebase_auth/firebase_auth.dart';
@@ -17,6 +18,7 @@ class CartScreen extends StatefulWidget {
 
 class _CartScreenState extends State<CartScreen> {
   User? user = FirebaseAuth.instance.currentUser;
+
 
   @override
   Widget build(BuildContext context) {
@@ -56,64 +58,65 @@ class _CartScreenState extends State<CartScreen> {
                     child: Text("Nothing here, Please add something"),
                   )
                 : ListView.builder(
-                    itemCount: productList.length,
-                    itemBuilder: (context, index) {
-                      final cartModel = productList.elementAt(index);
-                      return Container(
-                        margin: const EdgeInsets.symmetric(
-                            vertical: 5, horizontal: 10),
-                        padding: const EdgeInsets.symmetric(
-                            vertical: 5, horizontal: 5),
-                        decoration: BoxDecoration(
-                            color: color,
-                            // border: Border.all(color: textColor, width: 1),
-                            borderRadius: BorderRadius.circular(15)),
-                        child: Row(
-                          children: [
-                            Container(
-                              height: 80,
-                              width: 80,
-                              decoration: BoxDecoration(
-                                image: DecorationImage(
-                                  image:
-                                      AssetImage(cartModel.imageUrl.toString()),
-                                ),
+              itemCount: productList.length,
+              itemBuilder: (context, index) {
+                final cartModel = productList.elementAt(index);
+                    return Container(
+                      margin: const EdgeInsets.symmetric(
+                          vertical: 5, horizontal: 10),
+                      padding: const EdgeInsets.symmetric(
+                          vertical: 5, horizontal: 5),
+                      decoration: BoxDecoration(
+                          color: color,
+                          // border: Border.all(color: textColor, width: 1),
+                          borderRadius: BorderRadius.circular(15)),
+                      child: Row(
+                        children: [
+                          Container(
+                            height: 80,
+                            width: 80,
+                            decoration: BoxDecoration(
+                              image: DecorationImage(
+                                image:
+                                AssetImage(cartModel.imageUrl.toString()),
                               ),
                             ),
-                            Column(
-                              crossAxisAlignment: CrossAxisAlignment.start,
-                              children: [
-                                Text(
-                                  cartModel.name,
-                                  style: const TextStyle(
-                                      fontSize: 16,
-                                      fontWeight: FontWeight.bold),
-                                ),
-                                const SizedBox(
-                                  height: 5,
-                                ),
-                                Text(cartModel.price.toString()),
-                                const SizedBox(
-                                  height: 5,
-                                ),
-                                CartButton(product: cartModel),
-                              ],
-                            ),
-                            const Spacer(),
-                            IconButton(
-                              onPressed: () async {
-                                cart.removeQty(cartModel);
-                              },
-                              icon: const Icon(
-                                Icons.delete_forever,
-                                color: textColor,
+                          ),
+                          Column(
+                            crossAxisAlignment: CrossAxisAlignment.start,
+                            children: [
+                              Text(
+                                cartModel.name.toString(),
+                                style: const TextStyle(
+                                    fontSize: 16,
+                                    fontWeight: FontWeight.bold),
                               ),
+                              const SizedBox(
+                                height: 5,
+                              ),
+                              Text(cartModel.price.toString()),
+                              const SizedBox(
+                                height: 5,
+                              ),
+                              CartButton(product: cartModel),
+                            ],
+                          ),
+                          const Spacer(),
+                          IconButton(
+                            onPressed: () async {
+                              cart.removeQty(cartModel);
+                            },
+                            icon: const Icon(
+                              Icons.delete_forever,
+                              color: textColor,
                             ),
-                          ],
-                        ),
-                      );
-                    },
-                  ),
+                          ),
+                        ],
+                      ),
+                    );
+
+                  },
+                ),
           ),
           cart.products.isEmpty
               ? const SizedBox()

@@ -4,9 +4,11 @@ import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:e_commerce_app/Model/product_shose_model.dart';
 import 'package:e_commerce_app/components/cart_button.dart';
 import 'package:e_commerce_app/product_show_page.dart';
+import 'package:e_commerce_app/proividers/favourite_Provider.dart';
 import 'package:e_commerce_app/theme/color_theme.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
+import 'package:provider/provider.dart';
 
 import '../components/floating_button.dart';
 
@@ -18,7 +20,6 @@ class JecKetPage extends StatefulWidget {
 }
 
 class _JecKetPageState extends State<JecKetPage> {
-
   @override
   Widget build(BuildContext context) {
     return StreamBuilder<QuerySnapshot<Map<String, dynamic>>>(
@@ -58,6 +59,37 @@ class _JecKetPageState extends State<JecKetPage> {
                   padding: const EdgeInsets.symmetric(vertical: 8.0),
                   child: Column(
                     children: [
+                      Row(
+                        mainAxisAlignment: MainAxisAlignment.end,
+                        children: [
+                          InkWell(
+                            onTap: () {
+                              if (context
+                                  .read<FavouriteProvider>()
+                                  .isFavProduct(productModel)) {
+                                context
+                                    .read<FavouriteProvider>()
+                                    .remToFavProduct(productModel);
+                              } else {
+                                context
+                                    .read<FavouriteProvider>()
+                                    .addToFavProduct(productModel);
+                              }
+                            },
+                            child: context
+                                    .watch<FavouriteProvider>()
+                                    .isFavProduct(productModel)
+                                ? const Icon(
+                                    Icons.favorite,
+                                    color: textColor,
+                                  )
+                                : const Icon(
+                                    Icons.favorite_border,
+                                    color: textColor,
+                                  ),
+                          ),
+                        ],
+                      ),
                       InkWell(
                         onTap: () {
                           Navigator.push(
