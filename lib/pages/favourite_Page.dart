@@ -1,4 +1,5 @@
 import 'package:e_commerce_app/components/cart_button.dart';
+import 'package:e_commerce_app/components/floating_button.dart';
 import 'package:e_commerce_app/product_show_page.dart';
 import 'package:e_commerce_app/proividers/favourite_Provider.dart';
 import 'package:e_commerce_app/theme/color_theme.dart';
@@ -16,6 +17,30 @@ class _FavouritePageState extends State<FavouritePage> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
+      appBar: AppBar(
+      backgroundColor: Colors.transparent,
+      elevation: 0,
+      leading: IconButton(
+        onPressed: () {
+          Navigator.of(context).pop();
+        },
+        icon: const Icon(
+          Icons.arrow_back_ios_new,
+          color: textColor,
+        ),
+      ),
+      automaticallyImplyLeading: false,
+      title: const Text(
+        'Favourite',
+        style: TextStyle(
+          fontSize: 27,
+          fontWeight: FontWeight.bold,
+          color: textColor,
+        ),
+      ),
+      centerTitle: true,
+    ),
+      floatingActionButton: const FloatingButton(),
       body: context.watch<FavouriteProvider>().favouriteProducts.isNotEmpty
           ? GridView.builder(
               gridDelegate: const SliverGridDelegateWithFixedCrossAxisCount(
@@ -145,6 +170,7 @@ class _FavouritePageState extends State<FavouritePage> {
                 style: TextStyle(
                   fontSize: 17,
                   fontWeight: FontWeight.w100,
+                  color: textColor
                 ),
               ),
             ),

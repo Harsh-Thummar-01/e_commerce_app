@@ -1,4 +1,6 @@
-
+import 'package:cloud_firestore/cloud_firestore.dart';
+import 'package:e_commerce_app/Model/cart_model.dart';
+import 'package:e_commerce_app/Model/product_shose_model.dart';
 import 'package:e_commerce_app/proividers/cart_Provider.dart';
 import 'package:e_commerce_app/theme/color_theme.dart';
 import 'package:firebase_auth/firebase_auth.dart';
@@ -18,7 +20,6 @@ class CartScreen extends StatefulWidget {
 
 class _CartScreenState extends State<CartScreen> {
   User? user = FirebaseAuth.instance.currentUser;
-
 
   @override
   Widget build(BuildContext context) {
@@ -55,68 +56,70 @@ class _CartScreenState extends State<CartScreen> {
           Expanded(
             child: cart.products.isEmpty
                 ? const Center(
-                    child: Text("Nothing here, Please add something"),
+                    child: Text("No more Items!"),
                   )
                 : ListView.builder(
-              itemCount: productList.length,
-              itemBuilder: (context, index) {
-                final cartModel = productList.elementAt(index);
-                    return Container(
-                      margin: const EdgeInsets.symmetric(
-                          vertical: 5, horizontal: 10),
-                      padding: const EdgeInsets.symmetric(
-                          vertical: 5, horizontal: 5),
-                      decoration: BoxDecoration(
-                          color: color,
-                          // border: Border.all(color: textColor, width: 1),
-                          borderRadius: BorderRadius.circular(15)),
-                      child: Row(
-                        children: [
-                          Container(
-                            height: 80,
-                            width: 80,
-                            decoration: BoxDecoration(
-                              image: DecorationImage(
-                                image:
-                                AssetImage(cartModel.imageUrl.toString()),
+                    itemCount: productList.length,
+                    itemBuilder: (context, index) {
+                      final cartModel = productList.elementAt(index);
+                      return Container(
+                        margin: const EdgeInsets.symmetric(
+                            vertical: 5, horizontal: 10),
+                        padding: const EdgeInsets.symmetric(
+                            vertical: 5, horizontal: 5),
+                        decoration: BoxDecoration(
+                            color: color,
+                            // border: Border.all(color: textColor, width: 1),
+                            borderRadius: BorderRadius.circular(15)),
+                        child: Row(
+                          children: [
+                            Container(
+                              height: 80,
+                              width: 80,
+                              decoration: BoxDecoration(
+                                image: DecorationImage(
+                                  image: AssetImage(cartModel.imageUrl.toString()),
+                                ),
                               ),
                             ),
-                          ),
-                          Column(
-                            crossAxisAlignment: CrossAxisAlignment.start,
-                            children: [
-                              Text(
-                                cartModel.name.toString(),
-                                style: const TextStyle(
-                                    fontSize: 16,
-                                    fontWeight: FontWeight.bold),
-                              ),
-                              const SizedBox(
-                                height: 5,
-                              ),
-                              Text(cartModel.price.toString()),
-                              const SizedBox(
-                                height: 5,
-                              ),
-                              CartButton(product: cartModel),
-                            ],
-                          ),
-                          const Spacer(),
-                          IconButton(
-                            onPressed: () async {
-                              cart.removeQty(cartModel);
-                            },
-                            icon: const Icon(
-                              Icons.delete_forever,
-                              color: textColor,
+                            Column(
+                              crossAxisAlignment: CrossAxisAlignment.start,
+                              children: [
+                                Text(
+                                  cartModel.name.toString(),
+                                  style: const TextStyle(
+                                      fontSize: 16,
+                                      fontWeight: FontWeight.bold),
+                                ),
+                                const SizedBox(
+                                  height: 5,
+                                ),
+                                Text(cartModel.price.toString()),
+                                const SizedBox(
+                                  height: 5,
+                                ),
+                                CartButton(product: cartModel),
+                              ],
                             ),
-                          ),
-                        ],
-                      ),
-                    );
-
-                  },
-                ),
+                            const Spacer(),
+                            IconButton(
+                              onPressed: () async {
+                                cart.removeQty(cartModel);
+                                await FirebaseFirestore.instance
+                                    .collection("orders")
+                                    .doc(cartModel.id.toString())
+                                    .delete();
+                              },
+                              icon: const Icon(
+                                Icons.delete_forever,
+                                color: textColor,
+                              ),
+                            ),
+                          ],
+                        ),
+                      );
+                    },
+                  ),
           ),
           cart.products.isEmpty
               ? const SizedBox()
@@ -169,26 +172,26 @@ class _CartScreenState extends State<CartScreen> {
 // itemCount: productList.length,
 // itemBuilder: (context, index) {
 // final cartModel = productList.elementAt(index);
-// return Expanded(
-// child: Card(
-// color: color,
+// return Container(
 // margin: const EdgeInsets.symmetric(
-// horizontal: 10, vertical: 5),
-// elevation: 10,
-// shape: RoundedRectangleBorder(
-// borderRadius: BorderRadius.circular(12),
-// ),
-// child: Padding(
+// vertical: 5, horizontal: 10),
 // padding: const EdgeInsets.symmetric(
-// vertical: 8,
-// horizontal: 8,
-// ),
+// vertical: 5, horizontal: 5),
+// decoration: BoxDecoration(
+// color: color,
+// // border: Border.all(color: textColor, width: 1),
+// borderRadius: BorderRadius.circular(15)),
 // child: Row(
 // children: [
-// SizedBox(
-// height: 70,
-// width: 70,
-// child: Image.asset("${cartModel.imageUrl}"),
+// Container(
+// height: 80,
+// width: 80,
+// decoration: BoxDecoration(
+// image: DecorationImage(
+// image:
+// AssetImage(cartModel.imageUrl.toString()),
+// ),
+// ),
 // ),
 // Column(
 // crossAxisAlignment: CrossAxisAlignment.start,
@@ -197,39 +200,32 @@ class _CartScreenState extends State<CartScreen> {
 // cartModel.name.toString(),
 // style: const TextStyle(
 // fontSize: 16,
-// fontWeight: FontWeight.bold,
-// ),
-// ),
-// const SizedBox(
-// height: 6,
-// ),
-// Text(
-// cartModel.price.toString(),
-// style: const TextStyle(
-// fontSize: 17,
-// fontWeight: FontWeight.bold,
-// ),
+// fontWeight: FontWeight.bold),
 // ),
 // const SizedBox(
-// height: 6,
+// height: 5,
 // ),
-// CartButton(product: cartModel)
+// Text(cartModel.price.toString()),
+// const SizedBox(
+// height: 5,
+// ),
+// CartButton(product: cartModel),
 // ],
 // ),
 // const Spacer(),
 // IconButton(
 // onPressed: () async {
 // cart.removeQty(cartModel);
+// await FirebaseFirestore.instance.collection("orders").doc(cartModel.id.toString()).delete();
 // },
 // icon: const Icon(
-// Icons.close,
+// Icons.delete_forever,
 // color: textColor,
 // ),
 // ),
 // ],
 // ),
-// ),
-// ),
 // );
+//
 // },
 // ),

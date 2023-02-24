@@ -1,8 +1,6 @@
 import 'package:badges/badges.dart';
 import 'package:e_commerce_app/Model/user_model.dart';
 import 'package:e_commerce_app/admin/login_page.dart';
-import 'package:e_commerce_app/admin/profile.dart';
-import 'package:e_commerce_app/admin_panel.dart';
 import 'package:e_commerce_app/cart_screen.dart';
 import 'package:e_commerce_app/categories/bag_page.dart';
 import 'package:e_commerce_app/categories/jecket_page.dart';
@@ -226,52 +224,28 @@ class _HomePageState extends State<HomePage> {
                   padding:
                       const EdgeInsets.symmetric(vertical: 8.0, horizontal: 15),
                   child: Row(
-                    children: const [
-                      Icon(Icons.favorite, color: textColor),
-                      SizedBox(
-                        width: 10,
-                      ),
-                      Text(
-                        "Favourite Page",
-                        style: TextStyle(
-                          fontSize: 17,
-                          color: Colors.black,
-                          fontWeight: FontWeight.w500,
+                    children: [
+                      Badge(
+                        showBadge:
+                        (context.watch<FavouriteProvider>().favouriteProducts.isEmpty)
+                            ? false
+                            : true,
+                        badgeContent: Text(context
+                            .watch<FavouriteProvider>()
+                            .favouriteProducts
+                            .length
+                            .toString()),
+                        position: BadgePosition.topEnd(top: -12, end: -8),
+                        child: const Icon(
+                          Icons.favorite,
+                          color: textColor,
                         ),
                       ),
-                    ],
-                  ),
-                ),
-              ),
-              const SizedBox(
-                height: 20,
-              ),
-
-              InkWell(
-                onTap: () {
-                  Navigator.push(
-                    context,
-                    MaterialPageRoute(
-                      builder: (context) {
-                        return const AdminPanelPage();
-                      },
-                    ),
-                  );
-                },
-                child: Padding(
-                  padding:
-                      const EdgeInsets.symmetric(vertical: 8.0, horizontal: 15),
-                  child: Row(
-                    children: const [
-                      Icon(
-                        Icons.admin_panel_settings,
-                        color: textColor,
-                      ),
-                      SizedBox(
+                      const SizedBox(
                         width: 10,
                       ),
-                      Text(
-                        "Admin Panel",
+                     const Text(
+                        "Favourite Page",
                         style: TextStyle(
                           fontSize: 17,
                           color: Colors.black,
@@ -342,20 +316,22 @@ class _HomePageState extends State<HomePage> {
           ),
           centerTitle: true,
           actions: [
-            IconButton(
-              onPressed: () {
-                Navigator.push(
-                  context,
-                  MaterialPageRoute(
-                    builder: (context) {
-                      return const FavouritePage();
-                    },
-                  ),
-                );
-              },
-              icon: const Icon(
-                Icons.favorite,
-                color: textColor,
+            Padding(
+              padding: const EdgeInsets.only(right: 8.0),
+              child: Badge(
+                showBadge:
+                (context.watch<FavouriteProvider>().favouriteProducts.isEmpty)
+                    ? false
+                    : true,
+                badgeContent: Text(context
+                    .watch<FavouriteProvider>()
+                    .favouriteProducts
+                    .length
+                    .toString()),
+                position: BadgePosition.topEnd(top: 4, end: 4),
+                child: IconButton(onPressed: (){
+                  Navigator.push(context, MaterialPageRoute(builder: (context) => const FavouritePage(),));
+                }, icon: const Icon(Icons.favorite,color: textColor),),
               ),
             ),
             // Padding(
