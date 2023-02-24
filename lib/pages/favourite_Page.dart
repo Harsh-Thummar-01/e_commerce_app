@@ -1,6 +1,6 @@
 import 'package:e_commerce_app/components/cart_button.dart';
 import 'package:e_commerce_app/components/floating_button.dart';
-import 'package:e_commerce_app/product_show_page.dart';
+import 'package:e_commerce_app/pages/product_show_page.dart';
 import 'package:e_commerce_app/proividers/favourite_Provider.dart';
 import 'package:e_commerce_app/theme/color_theme.dart';
 import 'package:flutter/material.dart';

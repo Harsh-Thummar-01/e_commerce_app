@@ -5,7 +5,7 @@ import 'dart:io';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:e_commerce_app/Model/user_model.dart';
 import 'package:e_commerce_app/admin/register_page.dart';
-import 'package:e_commerce_app/home_page.dart';
+import 'package:e_commerce_app/pages/home_page.dart';
 import 'package:e_commerce_app/local_storage/sharedprefs.dart';
 import 'package:e_commerce_app/theme/color_theme.dart';
 import 'package:firebase_auth/firebase_auth.dart';
@@ -43,11 +43,15 @@ class _LoginPageState extends State<LoginPage> {
           await FirebaseFirestore.instance.collection('users').doc(uid).get();
       final userModel =
           UserModel.fromMap(userData.data() as Map<String, dynamic>);
+      setState(() {
+        sharedPrefs.email = userModel.email.toString();
+        sharedPrefs.uid = userModel.uid.toString();
+        sharedPrefs.userName = userModel.userName.toString();
+      });
       Navigator.push(
           context,
           MaterialPageRoute(
-            builder: (context) =>
-                HomePage(userModel: userModel, firebaseUser: user),
+            builder: (context) => HomePage(),
           ));
 
       stdout.write('Log In Siccessfully');
@@ -166,7 +170,7 @@ class _LoginPageState extends State<LoginPage> {
                 ),
                 onPressed: () {
                   login();
-                  log('--------------------------- ${sharedPrefs.firstName} ----------------------------------');
+                  log('--------------------------- ${sharedPrefs.userName} ----------------------------------');
                 },
                 child: const Text(
                   'Login',

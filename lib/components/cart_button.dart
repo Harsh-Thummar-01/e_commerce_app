@@ -38,6 +38,7 @@ class _CartButtonState extends State<CartButton> {
                       "price":widget.product.price,
                       "normalPrice":widget.product.normalPrice,
                       "quantity":cart.getQty(widget.product),
+                      "category":widget.product.category,
                     });
                   },
                   child: cart.getQty(widget.product) == 1
@@ -121,6 +122,7 @@ class _CartButtonState extends State<CartButton> {
                       "price":widget.product.price,
                       "normalPrice":widget.product.normalPrice,
                       "quantity":cart.getQty(widget.product),
+                      "category":widget.product.category,
                     });
                   },
                   child: const Icon(
@@ -141,6 +143,7 @@ class _CartButtonState extends State<CartButton> {
                 "price":widget.product.price,
                 "normalPrice":widget.product.normalPrice,
                 "quantity":widget.product.quantity,
+                "category":widget.product.category
               });
             },
             borderRadius: BorderRadius.circular(10),

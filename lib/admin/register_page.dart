@@ -6,6 +6,8 @@ import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:e_commerce_app/Model/user_model.dart';
 import 'package:e_commerce_app/admin/login_page.dart';
 import 'package:e_commerce_app/admin/profile.dart';
+import 'package:e_commerce_app/local_storage/sharedprefs.dart';
+import 'package:e_commerce_app/pages/home_page.dart';
 import 'package:e_commerce_app/theme/color_theme.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
@@ -47,6 +49,13 @@ class _RegisterPageState extends State<RegisterPage> {
         comment: '',
         imageUrl: '',
       );
+
+      setState(() {
+        sharedPrefs.uid = newUser.uid!;
+        sharedPrefs.email = newUser.email!;
+        sharedPrefs.userName = newUser.userName!;
+      });
+
       await FirebaseFirestore.instance
           .collection('users')
           .doc(uid)
@@ -55,7 +64,7 @@ class _RegisterPageState extends State<RegisterPage> {
         context,
         MaterialPageRoute(
           builder: (context) {
-            return Profile(userModel: newUser, firebaseUser: credential!.user!);
+            return HomePage();
           },
         ),
       );

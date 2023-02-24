@@ -33,24 +33,24 @@ class SharedPrefs {
 
   String get userName => _sharedPreferences!.getString("userName") ?? '';
 
-  set firstName(String value) =>
-      _sharedPreferences!.setString("firstName", value);
+  // set firstName(String value) =>
+  //     _sharedPreferences!.setString("firstName", value);
 
-  String get firstName => _sharedPreferences!.getString("firstName") ?? '';
+  // String get firstName => _sharedPreferences!.getString("firstName") ?? '';
 
-  set lastName(String value) =>
-      _sharedPreferences!.setString("lastName", value);
+  // set lastName(String value) =>
+  //     _sharedPreferences!.setString("lastName", value);
 
-  String get lastName => _sharedPreferences!.getString("lastName") ?? '';
+  // String get lastName => _sharedPreferences!.getString("lastName") ?? '';
 
-  set comment(String value) => _sharedPreferences!.setString("comment", value);
+  // set comment(String value) => _sharedPreferences!.setString("comment", value);
 
-  String get comment => _sharedPreferences!.getString("comment") ?? '';
+  // String get comment => _sharedPreferences!.getString("comment") ?? '';
 
-  set imageUrl(String value) =>
-      _sharedPreferences!.setString("imageUrl", value);
+  // set imageUrl(String value) =>
+  //     _sharedPreferences!.setString("imageUrl", value);
 
-  String get imageUrl => _sharedPreferences!.getString("imageUrl") ?? '';
+  // String get imageUrl => _sharedPreferences!.getString("imageUrl") ?? '';
 
   // set favoriteProduct(String value) =>
   //     _sharedPreferences!.setString("favProduct", value);

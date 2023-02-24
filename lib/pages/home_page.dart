@@ -1,13 +1,13 @@
 import 'package:badges/badges.dart';
 import 'package:e_commerce_app/Model/user_model.dart';
 import 'package:e_commerce_app/admin/login_page.dart';
-import 'package:e_commerce_app/cart_screen.dart';
+import 'package:e_commerce_app/pages/cart_screen.dart';
 import 'package:e_commerce_app/categories/bag_page.dart';
 import 'package:e_commerce_app/categories/jecket_page.dart';
 import 'package:e_commerce_app/categories/mobile_page.dart';
 import 'package:e_commerce_app/categories/shose_page.dart';
 import 'package:e_commerce_app/categories/watch_page.dart';
-import 'package:e_commerce_app/favourite_Page.dart';
+import 'package:e_commerce_app/pages/favourite_Page.dart';
 import 'package:e_commerce_app/local_storage/sharedprefs.dart';
 import 'package:e_commerce_app/proividers/cart_Provider.dart';
 import 'package:e_commerce_app/proividers/favourite_Provider.dart';
@@ -16,16 +16,12 @@ import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 
-import 'components/floating_button.dart';
+import '../components/floating_button.dart';
 
 class HomePage extends StatefulWidget {
-  HomePage({
-    required this.userModel,
-    required this.firebaseUser,
+  const HomePage({
     super.key,
   });
-  UserModel userModel;
-  User firebaseUser;
 
   @override
   State<HomePage> createState() => _HomePageState();
@@ -67,13 +63,13 @@ class _HomePageState extends State<HomePage> {
                     //   ),
                     // ),
                     Text(
-                      "${widget.userModel.userName}",
+                      "${sharedPrefs.userName}",
                       style: const TextStyle(
                           fontWeight: FontWeight.bold, fontSize: 22.0),
                     ),
                     const SizedBox(height: 5.0),
                     Text(
-                      widget.userModel.email.toString(),
+                      sharedPrefs.email,
                       style: const TextStyle(
                           fontWeight: FontWeight.bold, fontSize: 16.0),
                     ),
@@ -89,10 +85,7 @@ class _HomePageState extends State<HomePage> {
                     context,
                     MaterialPageRoute(
                       builder: (context) {
-                        return HomePage(
-                          userModel: widget.userModel,
-                          firebaseUser: widget.firebaseUser,
-                        );
+                        return HomePage();
                       },
                     ),
                   );
@@ -226,8 +219,10 @@ class _HomePageState extends State<HomePage> {
                   child: Row(
                     children: [
                       Badge(
-                        showBadge:
-                        (context.watch<FavouriteProvider>().favouriteProducts.isEmpty)
+                        showBadge: (context
+                                .watch<FavouriteProvider>()
+                                .favouriteProducts
+                                .isEmpty)
                             ? false
                             : true,
                         badgeContent: Text(context
@@ -244,7 +239,7 @@ class _HomePageState extends State<HomePage> {
                       const SizedBox(
                         width: 10,
                       ),
-                     const Text(
+                      const Text(
                         "Favourite Page",
                         style: TextStyle(
                           fontSize: 17,
@@ -319,8 +314,10 @@ class _HomePageState extends State<HomePage> {
             Padding(
               padding: const EdgeInsets.only(right: 8.0),
               child: Badge(
-                showBadge:
-                (context.watch<FavouriteProvider>().favouriteProducts.isEmpty)
+                showBadge: (context
+                        .watch<FavouriteProvider>()
+                        .favouriteProducts
+                        .isEmpty)
                     ? false
                     : true,
                 badgeContent: Text(context
@@ -329,9 +326,16 @@ class _HomePageState extends State<HomePage> {
                     .length
                     .toString()),
                 position: BadgePosition.topEnd(top: 4, end: 4),
-                child: IconButton(onPressed: (){
-                  Navigator.push(context, MaterialPageRoute(builder: (context) => const FavouritePage(),));
-                }, icon: const Icon(Icons.favorite,color: textColor),),
+                child: IconButton(
+                  onPressed: () {
+                    Navigator.push(
+                        context,
+                        MaterialPageRoute(
+                          builder: (context) => const FavouritePage(),
+                        ));
+                  },
+                  icon: const Icon(Icons.favorite, color: textColor),
+                ),
               ),
             ),
             // Padding(

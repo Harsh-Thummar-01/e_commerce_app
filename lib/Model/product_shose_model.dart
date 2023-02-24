@@ -8,6 +8,7 @@ class ProductModel {
     required this.price,
     this.normalPrice,
     required this.quantity,
+    required this.category
   });
 
   int id;
@@ -16,6 +17,7 @@ class ProductModel {
   int price;
   String? normalPrice;
   int quantity;
+  String category;
 
   factory ProductModel.fromMap(Map<String, dynamic> json) => ProductModel(
         id: json["id"],
@@ -24,6 +26,7 @@ class ProductModel {
         price: json["price"],
         normalPrice: json["normaPrice"],
         quantity: json["quantity"],
+        category: json["category"],
       );
 
   static Map<String, dynamic> toMap(ProductModel productModel) => {
@@ -33,6 +36,7 @@ class ProductModel {
         "price": productModel.price,
         "normaPrice": productModel.normalPrice,
         "quantity": productModel.quantity,
+        "category": productModel.category
       };
 
   // static String encode(List<ProductModel> productModel) => json.encode(

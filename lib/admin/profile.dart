@@ -3,7 +3,7 @@ import 'dart:io';
 
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:e_commerce_app/Model/user_model.dart';
-import 'package:e_commerce_app/home_page.dart';
+import 'package:e_commerce_app/pages/home_page.dart';
 import 'package:e_commerce_app/local_storage/sharedprefs.dart';
 import 'package:e_commerce_app/theme/color_theme.dart';
 import 'package:firebase_auth/firebase_auth.dart';
@@ -85,8 +85,7 @@ class _ProfileState extends State<Profile> {
     Navigator.push(
       context,
       MaterialPageRoute(
-        builder: (context) => HomePage(
-            userModel: widget.userModel!, firebaseUser: widget.firebaseUser!),
+        builder: (context) => HomePage(),
       ),
     );
 

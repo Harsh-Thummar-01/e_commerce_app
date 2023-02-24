@@ -1,7 +1,7 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:e_commerce_app/Model/product_shose_model.dart';
 import 'package:e_commerce_app/components/cart_button.dart';
-import 'package:e_commerce_app/product_show_page.dart';
+import 'package:e_commerce_app/pages/product_show_page.dart';
 import 'package:e_commerce_app/proividers/favourite_Provider.dart';
 import 'package:e_commerce_app/theme/color_theme.dart';
 import 'package:firebase_auth/firebase_auth.dart';
@@ -46,7 +46,9 @@ class _BagPageState extends State<BagPage> {
                   name: product['name'],
                   price: product['price'],
                   normalPrice: product['normalPrice'],
-                  quantity: 1);
+                  quantity: 1,
+                  category: product['category'],
+              );
               return Container(
                 decoration: BoxDecoration(
                   color: color,

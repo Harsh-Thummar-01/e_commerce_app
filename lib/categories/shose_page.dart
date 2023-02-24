@@ -2,7 +2,7 @@ import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:e_commerce_app/Model/product_shose_model.dart';
 import 'package:e_commerce_app/components/cart_button.dart';
 import 'package:e_commerce_app/components/floating_button.dart';
-import 'package:e_commerce_app/product_show_page.dart';
+import 'package:e_commerce_app/pages/product_show_page.dart';
 import 'package:e_commerce_app/proividers/favourite_Provider.dart';
 import 'package:e_commerce_app/theme/color_theme.dart';
 import 'package:firebase_auth/firebase_auth.dart';
@@ -49,7 +49,9 @@ class _ShosePageState extends State<ShosePage> {
                   name: product['name'],
                   price: product['price'],
                   normalPrice: product['normalPrice'],
-                  quantity: 1);
+                  quantity: 1,
+                category: product['category'],
+              );
               return Container(
                 decoration: BoxDecoration(
                   color: color,
@@ -60,36 +62,38 @@ class _ShosePageState extends State<ShosePage> {
                   padding: const EdgeInsets.symmetric(vertical: 8.0),
                   child: Column(
                     children: [
-                      Row(
-                        mainAxisAlignment: MainAxisAlignment.end,
-                        children: [
-                          InkWell(
-                            onTap: () {
-                              if (context
+                      Align(
+                        alignment: Alignment.centerRight,
+                        child: InkWell(
+                          onTap: () {
+                            if (context
+                                .read<FavouriteProvider>()
+                                .isFavProduct(productModel)) {
+                              context
                                   .read<FavouriteProvider>()
-                                  .isFavProduct(productModel)) {
-                                context
-                                    .read<FavouriteProvider>()
-                                    .remToFavProduct(productModel);
-                              } else {
-                                context
-                                    .read<FavouriteProvider>()
-                                    .addToFavProduct(productModel);
-                              }
-                            },
+                                  .remToFavProduct(productModel);
+                            } else {
+                              context
+                                  .read<FavouriteProvider>()
+                                  .addToFavProduct(productModel);
+                            }
+                          },
+                          child: Container(
+                            padding: const EdgeInsets.only(right: 5),
                             child: context
-                                    .watch<FavouriteProvider>()
-                                    .isFavProduct(productModel)
+                                .watch<FavouriteProvider>()
+                                .isFavProduct(productModel)
                                 ? const Icon(
-                                    Icons.favorite,
-                                    color: textColor,
-                                  )
+                              Icons.favorite,
+                              color: textColor,
+                            )
                                 : const Icon(
-                                    Icons.favorite_border,
-                                    color: textColor,
-                                  ),
+                              Icons.favorite_border,
+                              color: textColor,
+                            ),
                           ),
-                        ],
+
+                        ),
                       ),
                       InkWell(
                         onTap: () {
