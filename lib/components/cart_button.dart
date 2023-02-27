@@ -31,14 +31,17 @@ class _CartButtonState extends State<CartButton> {
                 InkWell(
                   onTap: () async {
                     cart.removeFromCart(widget.product);
-                    await FirebaseFirestore.instance.collection("orders").doc(widget.product.id.toString()).update({
-                      "id":widget.product.id,
-                      "imageUrl":widget.product.imageUrl,
-                      "name":widget.product.name,
-                      "price":widget.product.price,
-                      "normalPrice":widget.product.normalPrice,
-                      "quantity":cart.getQty(widget.product),
-                      "category":widget.product.category,
+                    await FirebaseFirestore.instance
+                        .collection("orders")
+                        .doc(widget.product.id.toString())
+                        .update({
+                      "id": widget.product.id,
+                      "imageUrl": widget.product.imageUrl,
+                      "name": widget.product.name,
+                      "price": widget.product.price,
+                      "normalPrice": widget.product.normalPrice,
+                      "quantity": cart.getQty(widget.product),
+                      "category": widget.product.category,
                     });
                   },
                   child: cart.getQty(widget.product) == 1
@@ -64,7 +67,10 @@ class _CartButtonState extends State<CartButton> {
                                     onPressed: () async {
                                       Navigator.pop(context);
                                       cart.removeFromCart(widget.product);
-                                      await FirebaseFirestore.instance.collection("orders").doc(widget.product.id.toString()).delete();
+                                      await FirebaseFirestore.instance
+                                          .collection("orders")
+                                          .doc(widget.product.id.toString())
+                                          .delete();
                                     },
                                     child: const Text(
                                       "yes",
@@ -115,14 +121,17 @@ class _CartButtonState extends State<CartButton> {
                 InkWell(
                   onTap: () async {
                     cart.addToCart(widget.product);
-                    await FirebaseFirestore.instance.collection("orders").doc(widget.product.id.toString()).update({
-                      "id":widget.product.id,
-                      "imageUrl":widget.product.imageUrl,
-                      "name":widget.product.name,
-                      "price":widget.product.price,
-                      "normalPrice":widget.product.normalPrice,
-                      "quantity":cart.getQty(widget.product),
-                      "category":widget.product.category,
+                    await FirebaseFirestore.instance
+                        .collection("orders")
+                        .doc(widget.product.id.toString())
+                        .update({
+                      "id": widget.product.id,
+                      "imageUrl": widget.product.imageUrl,
+                      "name": widget.product.name,
+                      "price": widget.product.price,
+                      "normalPrice": widget.product.normalPrice,
+                      "quantity": cart.getQty(widget.product),
+                      "category": widget.product.category,
                     });
                   },
                   child: const Icon(
@@ -136,14 +145,17 @@ class _CartButtonState extends State<CartButton> {
         : InkWell(
             onTap: () async {
               context.read<CartProvider>().addToCart(widget.product);
-              await FirebaseFirestore.instance.collection("orders").doc(widget.product.id.toString()).set({
-                "id":widget.product.id,
-                "imageUrl":widget.product.imageUrl,
-                "name":widget.product.name,
-                "price":widget.product.price,
-                "normalPrice":widget.product.normalPrice,
-                "quantity":widget.product.quantity,
-                "category":widget.product.category
+              await FirebaseFirestore.instance
+                  .collection("orders")
+                  .doc(widget.product.id.toString())
+                  .set({
+                "id": widget.product.id,
+                "imageUrl": widget.product.imageUrl,
+                "name": widget.product.name,
+                "price": widget.product.price,
+                "normalPrice": widget.product.normalPrice,
+                "quantity": widget.product.quantity,
+                "category": widget.product.category
               });
             },
             borderRadius: BorderRadius.circular(10),

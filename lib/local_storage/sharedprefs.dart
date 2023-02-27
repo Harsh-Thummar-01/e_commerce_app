@@ -33,6 +33,24 @@ class SharedPrefs {
 
   String get userName => _sharedPreferences!.getString("userName") ?? '';
 
+  set currentStreet(String value) =>
+      _sharedPreferences!.setString("currentStreet", value);
+
+  String get currentStreet =>
+      _sharedPreferences!.getString("currentStreet") ?? '';
+
+  set currentLocality(String value) =>
+      _sharedPreferences!.setString("currentLocality", value);
+
+  String get currentLocality =>
+      _sharedPreferences!.getString("currentLocality") ?? '';
+
+  set currentCountry(String value) =>
+      _sharedPreferences!.setString("currentCountry", value);
+
+  String get currentCountry =>
+      _sharedPreferences!.getString("currentCountry") ?? '';
+
   // set firstName(String value) =>
   //     _sharedPreferences!.setString("firstName", value);
 

@@ -1,3 +1,4 @@
+import 'package:e_commerce_app/local_storage/sharedprefs.dart';
 import 'package:e_commerce_app/pages/google_map.dart';
 import 'package:flutter/material.dart';
 import '../Model/product_shose_model.dart';
@@ -13,6 +14,23 @@ class OrderPage extends StatefulWidget {
 }
 
 class _OrderPageState extends State<OrderPage> {
+  final _formKey = GlobalKey<FormState>();
+  final _userName = TextEditingController();
+  final _email = TextEditingController();
+  final _street = TextEditingController();
+  final _locality = TextEditingController();
+  final _country = TextEditingController();
+
+  @override
+  void initState() {
+    super.initState();
+    _userName.text = sharedPrefs.userName;
+    _email.text = sharedPrefs.email;
+    _street.text = sharedPrefs.currentStreet;
+    _locality.text = sharedPrefs.currentLocality;
+    _country.text = sharedPrefs.currentCountry;
+  }
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -34,29 +52,114 @@ class _OrderPageState extends State<OrderPage> {
         backgroundColor: Colors.transparent,
         elevation: 0.0,
       ),
-      body: Column(
-        children: [
-          Container(
-            height: 180,
-            margin: const EdgeInsets.only(left: 10, right: 10, top: 50),
-            decoration: BoxDecoration(
-              image: DecorationImage(
-                image: AssetImage(widget.productModel.imageUrl.toString()),
+      body: SingleChildScrollView(
+        scrollDirection: Axis.vertical,
+        child: Column(
+          children: [
+            Image(
+              image: AssetImage(
+                widget.productModel.imageUrl.toString(),
+              ),
+              height: 250,
+              width: 250,
+            ),
+            const SizedBox(
+              height: 10,
+            ),
+            Form(
+              key: _formKey,
+              child: Column(
+                children: [
+                  const Padding(
+                    padding: EdgeInsets.only(left: 12.0),
+                    child: Align(
+                      alignment: Alignment.centerLeft,
+                      child: Text(
+                        "User Details :",
+                        style: TextStyle(
+                          fontSize: 20,
+                          fontWeight: FontWeight.bold,
+                        ),
+                      ),
+                    ),
+                  ),
+                  textFormField(_userName, "User Name"),
+                  textFormField(_email, "Email"),
+                  Padding(
+                    padding: const EdgeInsets.symmetric(horizontal: 12.0),
+                    child: Row(
+                      mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                      children: [
+                        const Align(
+                          alignment: Alignment.centerLeft,
+                          child: Text(
+                            "Address :",
+                            style: TextStyle(
+                              fontSize: 20,
+                              fontWeight: FontWeight.bold,
+                            ),
+                          ),
+                        ),
+                        Align(
+                          alignment: Alignment.centerRight,
+                          child: TextButton(
+                            onPressed: () {
+                              Navigator.push(
+                                context,
+                                MaterialPageRoute(
+                                  builder: (context) => const CustomGoogleMap(),
+                                ),
+                              );
+                            },
+                            child: const Text(
+                              "Select Location >",
+                              style: TextStyle(fontSize: 15),
+                            ),
+                          ),
+                        ),
+                      ],
+                    ),
+                  ),
+                  textFormField(_street, "Street"),
+                  textFormField(_locality, "Locality"),
+                  textFormField(_country, "Country"),
+                  Container(
+                    height: 50,
+                    width: double.infinity,
+                    child: MaterialButton(
+                      onPressed: () {},
+                      child: Text(""),
+                    ),
+                  )
+                ],
               ),
             ),
-          ),
-          ElevatedButton(
-            onPressed: () {
-              Navigator.push(
-                  context,
-                  MaterialPageRoute(
-                    builder: (context) => const CustomGoogleMap(),
-                  ));
-            },
-            child: const Text("select location"),
-          ),
-        ],
+          ],
+        ),
       ),
     );
   }
+
+  Padding textFormField(var cotroller, String hintText) => Padding(
+        padding: const EdgeInsets.all(12.0),
+        child: Container(
+          decoration: BoxDecoration(
+            borderRadius: BorderRadius.circular(12),
+            border: Border.all(
+              color: textColor,
+              width: 2,
+            ),
+          ),
+          child: TextFormField(
+            controller: cotroller,
+            decoration: InputDecoration(
+              border: OutlineInputBorder(
+                borderRadius: BorderRadius.circular(12),
+                borderSide: BorderSide.none,
+              ),
+              hintText: hintText,
+            ),
+          ),
+        ),
+      );
 }

@@ -1,15 +1,14 @@
 import 'dart:convert';
 
 class ProductModel {
-  ProductModel({
-    required this.id,
-    this.imageUrl,
-    required this.name,
-    required this.price,
-    this.normalPrice,
-    required this.quantity,
-    required this.category
-  });
+  ProductModel(
+      {required this.id,
+      this.imageUrl,
+      required this.name,
+      required this.price,
+      this.normalPrice,
+      required this.quantity,
+      required this.category});
 
   int id;
   String? imageUrl;
