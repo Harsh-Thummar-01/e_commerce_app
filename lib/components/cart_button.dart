@@ -2,6 +2,7 @@ import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:e_commerce_app/Model/product_shose_model.dart';
 import 'package:e_commerce_app/proividers/cart_Provider.dart';
 import 'package:e_commerce_app/theme/color_theme.dart';
+import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 
@@ -15,6 +16,7 @@ class CartButton extends StatefulWidget {
 }
 
 class _CartButtonState extends State<CartButton> {
+  User? user = FirebaseAuth.instance.currentUser;
   @override
   Widget build(BuildContext context) {
     final cart = context.watch<CartProvider>();
@@ -33,6 +35,8 @@ class _CartButtonState extends State<CartButton> {
                     cart.removeFromCart(widget.product);
                     await FirebaseFirestore.instance
                         .collection("orders")
+                        .doc(user!.uid)
+                        .collection("cartorder")
                         .doc(widget.product.id.toString())
                         .update({
                       "id": widget.product.id,
@@ -69,6 +73,8 @@ class _CartButtonState extends State<CartButton> {
                                       cart.removeFromCart(widget.product);
                                       await FirebaseFirestore.instance
                                           .collection("orders")
+                                          .doc(user!.uid)
+                                          .collection("cartorder")
                                           .doc(widget.product.id.toString())
                                           .delete();
                                     },
@@ -123,6 +129,8 @@ class _CartButtonState extends State<CartButton> {
                     cart.addToCart(widget.product);
                     await FirebaseFirestore.instance
                         .collection("orders")
+                        .doc(user!.uid)
+                        .collection("cartorder")
                         .doc(widget.product.id.toString())
                         .update({
                       "id": widget.product.id,
@@ -147,6 +155,8 @@ class _CartButtonState extends State<CartButton> {
               context.read<CartProvider>().addToCart(widget.product);
               await FirebaseFirestore.instance
                   .collection("orders")
+                  .doc(user!.uid)
+                  .collection("cartorder")
                   .doc(widget.product.id.toString())
                   .set({
                 "id": widget.product.id,

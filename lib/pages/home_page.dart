@@ -1,3 +1,4 @@
+import 'package:badges/badges.dart' as badge;
 import 'package:badges/badges.dart';
 import 'package:e_commerce_app/Model/user_model.dart';
 import 'package:e_commerce_app/admin/login_page.dart';
@@ -31,6 +32,7 @@ class _HomePageState extends State<HomePage> {
   @override
   void initState() {
     context.read<FavouriteProvider>().getLocalData();
+    context.read<CartProvider>().getLocalProductData();
     super.initState();
   }
 
@@ -130,7 +132,7 @@ class _HomePageState extends State<HomePage> {
                       const EdgeInsets.symmetric(vertical: 8.0, horizontal: 15),
                   child: Row(
                     children: [
-                      Badge(
+                      badge.Badge(
                         showBadge:
                             (context.watch<CartProvider>().products.isEmpty)
                                 ? false
@@ -218,7 +220,7 @@ class _HomePageState extends State<HomePage> {
                       const EdgeInsets.symmetric(vertical: 8.0, horizontal: 15),
                   child: Row(
                     children: [
-                      Badge(
+                      badge.Badge(
                         showBadge: (context
                                 .watch<FavouriteProvider>()
                                 .favouriteProducts
@@ -313,7 +315,7 @@ class _HomePageState extends State<HomePage> {
           actions: [
             Padding(
               padding: const EdgeInsets.only(right: 8.0),
-              child: Badge(
+              child: badge.Badge(
                 showBadge: (context
                         .watch<FavouriteProvider>()
                         .favouriteProducts

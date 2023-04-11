@@ -1,3 +1,4 @@
+import 'package:badges/badges.dart' as badge;
 import 'package:badges/badges.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
@@ -26,7 +27,7 @@ class _FloatingButtonState extends State<FloatingButton> {
           ),
         );
       },
-      child: Badge(
+      child: badge.Badge(
         showBadge:
             (context.watch<CartProvider>().products.isEmpty) ? false : true,
         position: BadgePosition.topEnd(top: -14, end: -4),
@@ -34,7 +35,7 @@ class _FloatingButtonState extends State<FloatingButton> {
           context.watch<CartProvider>().products.length.toString(),
           style: const TextStyle(color: Colors.white),
         ),
-        animationType: BadgeAnimationType.fade,
+        badgeAnimation: const BadgeAnimation.fade(),
         child: const Icon(
           Icons.shopping_cart,
           color: Colors.white,

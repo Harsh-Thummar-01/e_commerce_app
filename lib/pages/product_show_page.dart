@@ -1,6 +1,5 @@
+import 'package:badges/badges.dart' as badge;
 import 'package:badges/badges.dart';
-import 'package:cloud_firestore/cloud_firestore.dart';
-import 'package:e_commerce_app/Model/cart_model.dart';
 import 'package:e_commerce_app/Model/product_shose_model.dart';
 import 'package:e_commerce_app/components/cart_button.dart';
 import 'package:e_commerce_app/proividers/cart_Provider.dart';
@@ -67,7 +66,7 @@ class _ProductShowPageState extends State<ProductShowPage> {
                     ],
                   ),
                   child: Center(
-                    child: Badge(
+                    child: badge.Badge(
                       showBadge:
                           (context.watch<CartProvider>().products.isEmpty)
                               ? false

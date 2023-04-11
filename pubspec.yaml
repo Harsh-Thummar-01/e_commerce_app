@@ -44,10 +44,13 @@ dependencies:
   date_time: ^0.8.0
   provider: ^6.0.5
   shared_preferences: ^2.0.15
-  badges: ^2.0.3
+  badges: ^3.0.2
   google_maps_flutter: ^2.2.4
   location: ^4.4.0
   geocoding: ^2.0.5
+  fluttertoast: ^8.2.1
+  flutter_place_picker: ^0.0.1-dev.4
+  
 
 dev_dependencies:
   flutter_test:

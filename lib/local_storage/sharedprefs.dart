@@ -20,6 +20,14 @@ class SharedPrefs {
     _sharedPreferences?.clear();
   }
 
+  addressClear() {
+    _sharedPreferences?.getKeys().forEach((element) {
+      if (element == "currentStreet") {
+        _sharedPreferences?.remove(element);
+      }
+    });
+  }
+
   set uid(String value) => _sharedPreferences!.setString("uid", value);
 
   String get uid => _sharedPreferences!.getString("uid") ?? '';
@@ -33,23 +41,22 @@ class SharedPrefs {
 
   String get userName => _sharedPreferences!.getString("userName") ?? '';
 
-  set currentStreet(String value) =>
-      _sharedPreferences!.setString("currentStreet", value);
+  set pickAddress(String value) =>
+      _sharedPreferences!.setString("pickAddress", value);
 
-  String get currentStreet =>
-      _sharedPreferences!.getString("currentStreet") ?? '';
+  String get pickAddress => _sharedPreferences!.getString("pickAddress") ?? '';
 
-  set currentLocality(String value) =>
-      _sharedPreferences!.setString("currentLocality", value);
+  // set currentLocality(String value) =>
+  //     _sharedPreferences!.setString("currentLocality", value);
 
-  String get currentLocality =>
-      _sharedPreferences!.getString("currentLocality") ?? '';
+  // String get currentLocality =>
+  //     _sharedPreferences!.getString("currentLocality") ?? '';
 
-  set currentCountry(String value) =>
-      _sharedPreferences!.setString("currentCountry", value);
+  // set currentCountry(String value) =>
+  //     _sharedPreferences!.setString("currentCountry", value);
 
-  String get currentCountry =>
-      _sharedPreferences!.getString("currentCountry") ?? '';
+  // String get currentCountry =>
+  //     _sharedPreferences!.getString("currentCountry") ?? '';
 
   // set firstName(String value) =>
   //     _sharedPreferences!.setString("firstName", value);
